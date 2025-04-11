@@ -1,5 +1,8 @@
 package main;
 
+import entity.Player;
+import keyhandler.KeyHandler;
+
 import javax.swing.*;
 import java.awt.*;
 
@@ -13,13 +16,21 @@ public class GamePanel extends JPanel implements Runnable{
     private final int screenWidth = tileSize * maxScreenCol;
     private final int screenHeight = tileSize * maxScreenRow;
 
+
+    private KeyHandler keyH;
     private Thread thread;
+    private Player player;
     private final int FPS = 60;
 
 
     public GamePanel(){
+        keyH = new KeyHandler();
         this.setPreferredSize(new Dimension(screenWidth,screenHeight));
+        this.setFocusable(true);
         this.setDoubleBuffered(true);
+        this.addKeyListener(keyH);
+        player = new Player();
+
     }
 
     public void startGameThread(){
@@ -27,13 +38,14 @@ public class GamePanel extends JPanel implements Runnable{
         thread.start();
     }
 
-    public void draw(Graphics g){
+    public void paintComponent(Graphics g){
         super.paintComponent(g);
         Graphics2D g2 = (Graphics2D) g;
+        player.draw(g2);
     }
 
     public void update(){
-        System.out.println("the loop is working");
+        player.update(keyH.isUpPressed(),keyH.isDownPressed(),keyH.isLeftPressed(),keyH.isRightPressed());
     }
 
 
