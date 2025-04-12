@@ -32,15 +32,18 @@ public class TileManager {
 
             tile[1] = new Tile();
             tile[1].setImage(ImageIO.read(getClass().getClassLoader().getResourceAsStream("tiles/wall.png")));
+            tile[1].collision = true;
 
             tile[2] = new Tile();
             tile[2].setImage(ImageIO.read(getClass().getClassLoader().getResourceAsStream("tiles/water.png")));
+            tile[2].collision = true;
 
             tile[3] = new Tile();
             tile[3].setImage(ImageIO.read(getClass().getClassLoader().getResourceAsStream("tiles/earth.png")));
 
             tile[4] = new Tile();
             tile[4].setImage(ImageIO.read(getClass().getClassLoader().getResourceAsStream("tiles/tree.png")));
+            tile[4].collision = true;
 
             tile[5] = new Tile();
             tile[5].setImage(ImageIO.read(getClass().getClassLoader().getResourceAsStream("tiles/sand.png")));
@@ -104,6 +107,14 @@ public class TileManager {
         }catch(Exception e){
             e.printStackTrace();
         }
+    }
+
+    public int getMapTileNum(int col, int row) {
+        return mapTileNum[col][row];
+    }
+
+    public Tile getTile(int index){
+        return tile[index];
     }
 
 }

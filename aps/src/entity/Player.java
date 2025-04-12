@@ -19,6 +19,8 @@ public class Player {
     private GamePanel gp;
     private final int SCREENX;
     private final int SCREENY;
+    private Rectangle solidArea;
+    private boolean collisionOn = false;
 
     public Player(GamePanel gp){
         this.gp = gp;
@@ -26,6 +28,8 @@ public class Player {
         getPlayerImage();
         SCREENX = gp.getScreenWidth() / 2 - gp.getTileSize() / 2;
         SCREENY = gp.getScreenHeight() / 2 - gp.getTileSize() / 2;
+
+        solidArea = new Rectangle(14,22,18,26);
     }
 
 
@@ -65,32 +69,50 @@ public class Player {
 
         g2.drawImage(image,SCREENX,SCREENY,width,height,null);
 
-
     }
 
     public void update(boolean up,boolean down, boolean left,boolean right){
-        if(up){
-            this.worldY -= speed;
-            this.direction = "up";
-        }else if(down){
-            this.worldY += speed;
-            this.direction = "down";
-        }else if(left){
-            this.worldX -= speed;
-            this.direction = "left";
-        }else if(right){
-            this.worldX += speed;
-            this.direction = "right";
-        }
 
-        spriteCounter++;
-        if(spriteCounter > 12){
-            if(spriteNum == 1){
-                spriteNum = 2;
-            }else{
-                spriteNum = 1;
+        if(up || down || left || right){
+            if(up){
+                this.direction = "up";
+            }else if(down){
+                this.direction = "down";
+            }else if(left){
+                this.direction = "left";
+            }else if(right){
+                this.direction = "right";
             }
-            spriteCounter = 0;
+
+            collisionOn = false;
+            gp.cChecker.checkTile(this);
+
+            if(!collisionOn){
+                switch(direction){
+                    case "up":
+                        this.worldY -= speed;
+                        break;
+                    case "down":
+                        this.worldY += speed;
+                        break;
+                    case "left":
+                        this.worldX -= speed;
+                        break;
+                    case "right":
+                        this.worldX += speed;
+                        break;
+                }
+            }
+
+            spriteCounter++;
+            if(spriteCounter > 12){
+                if(spriteNum == 1){
+                    spriteNum = 2;
+                }else{
+                    spriteNum = 1;
+                }
+                spriteCounter = 0;
+            }
         }
     }
 
@@ -134,5 +156,30 @@ public class Player {
 
     public int getSCREENY() {
         return SCREENY;
+    }
+
+    public int getSolidAreaX() {
+        return solidArea.x;
+    }
+    public int getSolidAreaY() {
+        return solidArea.y;
+    }
+    public int getSolidAreaWidth() {
+        return solidArea.width;
+    }
+    public int getSolidAreaHeight() {
+        return solidArea.height;
+    }
+
+    public String getDirection(){
+        return this.direction;
+    }
+
+    public int getSpeed() {
+        return speed;
+    }
+
+    public void setCollisionOn(boolean collision){
+        this.collisionOn = collision;
     }
 }

@@ -2,6 +2,7 @@ package main;
 
 import entity.Player;
 import keyhandler.KeyHandler;
+import tile.Tile;
 import tile.TileManager;
 
 import javax.swing.*;
@@ -22,6 +23,7 @@ public class GamePanel extends JPanel implements Runnable{
     private Thread thread;
     private Player player;
     private TileManager tileM;
+    public CollisionChecker cChecker = new CollisionChecker(this);
     private final int FPS = 60;
 
     private final int MAXWORLDCOL = 50;
@@ -127,5 +129,11 @@ public class GamePanel extends JPanel implements Runnable{
     }
     public int getPlayerSCREENY(){
         return player.getSCREENY();
+    }
+    public int getMapTileNum(int col, int row){
+        return tileM.getMapTileNum(col,row);
+    }
+    public Tile getTile(int index){
+        return tileM.getTile(index);
     }
 }
