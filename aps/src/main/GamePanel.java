@@ -2,6 +2,7 @@ package main;
 
 import entity.Player;
 import keyhandler.KeyHandler;
+import tile.TileManager;
 
 import javax.swing.*;
 import java.awt.*;
@@ -20,6 +21,7 @@ public class GamePanel extends JPanel implements Runnable{
     private KeyHandler keyH;
     private Thread thread;
     private Player player;
+    private TileManager tileM;
     private final int FPS = 60;
 
 
@@ -31,7 +33,7 @@ public class GamePanel extends JPanel implements Runnable{
         this.addKeyListener(keyH);
         this.setBackground(Color.black);
         player = new Player();
-
+        tileM = new TileManager(this);
     }
 
     public void startGameThread(){
@@ -42,7 +44,9 @@ public class GamePanel extends JPanel implements Runnable{
     public void paintComponent(Graphics g){
         super.paintComponent(g);
         Graphics2D g2 = (Graphics2D) g;
+        tileM.draw(g2);
         player.draw(g2);
+
     }
 
     public void update(){
@@ -68,5 +72,17 @@ public class GamePanel extends JPanel implements Runnable{
                 delta--;
             }
         }
+    }
+
+    public int getMaxScreenCol() {
+        return maxScreenCol;
+    }
+
+    public int getMaxScreenRow() {
+        return maxScreenRow;
+    }
+
+    public int getTileSize() {
+        return tileSize;
     }
 }
