@@ -19,9 +19,9 @@ public class TileManager {
     public TileManager(GamePanel gp){
         this.gp = gp;
         tile = new Tile[10];
-        mapTileNum = new int[gp.getMaxScreenCol()][gp.getMaxScreenRow()];
+        mapTileNum = new int[gp.getMAXWORLDCOL()][gp.getMAXWORLDROW()];
         getTileImage();
-        loadMap();
+        loadMap("/maps/world01.txt");
 
     }
 
@@ -36,49 +36,65 @@ public class TileManager {
             tile[2] = new Tile();
             tile[2].setImage(ImageIO.read(getClass().getClassLoader().getResourceAsStream("tiles/water.png")));
 
+            tile[3] = new Tile();
+            tile[3].setImage(ImageIO.read(getClass().getClassLoader().getResourceAsStream("tiles/earth.png")));
+
+            tile[4] = new Tile();
+            tile[4].setImage(ImageIO.read(getClass().getClassLoader().getResourceAsStream("tiles/tree.png")));
+
+            tile[5] = new Tile();
+            tile[5].setImage(ImageIO.read(getClass().getClassLoader().getResourceAsStream("tiles/sand.png")));
+
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
     public void draw(Graphics2D g2){
-        int col = 0;
-        int row = 0;
-        int x = 0;
-        int y = 0;
+        int worldCol = 0;
+        int worldRow = 0;
 
-        while(col < gp.getMaxScreenCol() && row < gp.getMaxScreenRow()){
-            int tileNum = mapTileNum[col][row];
-            g2.drawImage(tile[tileNum].getImage(),x,y,gp.getTileSize(), gp.getTileSize(), null);
-            col++;
-            x += gp.getTileSize();
+        while(worldCol < gp.getMAXWORLDCOL() && worldRow < gp.getMAXWORLDROW()){
+            int tileNum = mapTileNum[worldCol][worldRow];
 
-            if(col == gp.getMaxScreenCol()){
-                col = 0;
-                x = 0;
-                row++;
-                y += gp.getTileSize();
+            int worldX = worldCol * gp.getTileSize();
+            int worldY = worldRow * gp.getTileSize();
+            int screenX = worldX - gp.getPlayerWorldX() + gp.getPlayerSCREENX();
+            int screenY = worldY - gp.getPlayerWorldY() + gp.getPlayerSCREENY();
+
+            if(worldX + gp.getTileSize()> gp.getPlayerWorldX() - gp.getPlayerSCREENX()&&
+               worldX - gp.getTileSize()< gp.getPlayerWorldX() + gp.getPlayerSCREENX()&&
+               worldY + gp.getTileSize()> gp.getPlayerWorldY() - gp.getPlayerSCREENY()&&
+               worldY - gp.getTileSize()< gp.getPlayerWorldY() + gp.getPlayerSCREENY()){
+                g2.drawImage(tile[tileNum].getImage(),screenX,screenY,gp.getTileSize(), gp.getTileSize(), null);
+            }
+
+            worldCol++;
+
+            if(worldCol == gp.getMAXWORLDCOL()){
+                worldCol = 0;
+                worldRow++;
             }
         }
     }
 
-    private void loadMap(){
+    private void loadMap(String filePath){
         try{
-            InputStream is = getClass().getResourceAsStream("/maps/aps-map.txt");
+            InputStream is = getClass().getResourceAsStream(filePath);
             BufferedReader br = new BufferedReader(new InputStreamReader(is));
 
             int col = 0;
             int row = 0;
 
-            while (col < gp.getMaxScreenCol() && row < gp.getMaxScreenRow()){
+            while (col < gp.getMAXWORLDCOL() && row < gp.getMAXWORLDROW()){
                 String line = br.readLine();
-                while(col < gp.getMaxScreenCol()){
+                while(col < gp.getMAXWORLDCOL()){
                     String[] numbers = line.split(" ");
                     int num = Integer.parseInt(numbers[col]);
                     mapTileNum[col][row] = num;
                     col++;
                 }
-                if(col == gp.getMaxScreenCol()){
+                if(col == gp.getMAXWORLDCOL()){
                     col = 0;
                     row++;
                 }

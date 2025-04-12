@@ -24,6 +24,12 @@ public class GamePanel extends JPanel implements Runnable{
     private TileManager tileM;
     private final int FPS = 60;
 
+    private final int MAXWORLDCOL = 50;
+    private final int MAXWORLDROW = 50;
+    private final int WORLDWIDTH = tileSize * MAXWORLDCOL;
+    private final int WORLDHEIGHT = tileSize * MAXWORLDROW;
+
+
 
     public GamePanel(){
         keyH = new KeyHandler();
@@ -32,7 +38,7 @@ public class GamePanel extends JPanel implements Runnable{
         this.setDoubleBuffered(true);
         this.addKeyListener(keyH);
         this.setBackground(Color.black);
-        player = new Player();
+        player = new Player(this);
         tileM = new TileManager(this);
     }
 
@@ -84,5 +90,42 @@ public class GamePanel extends JPanel implements Runnable{
 
     public int getTileSize() {
         return tileSize;
+    }
+
+    public int getScreenWidth() {
+        return screenWidth;
+    }
+
+    public int getScreenHeight() {
+        return screenHeight;
+    }
+
+    public int getMAXWORLDCOL() {
+        return MAXWORLDCOL;
+    }
+
+    public int getMAXWORLDROW() {
+        return MAXWORLDROW;
+    }
+
+    public int getWORLDWIDTH() {
+        return WORLDWIDTH;
+    }
+
+    public int getWORLDDHEIGHT() {
+        return WORLDHEIGHT;
+    }
+
+    public int getPlayerWorldX(){
+        return player.getWorldX();
+    }
+    public int getPlayerWorldY(){
+        return player.getWorldY();
+    }
+    public int getPlayerSCREENX(){
+        return player.getSCREENX();
+    }
+    public int getPlayerSCREENY(){
+        return player.getSCREENY();
     }
 }

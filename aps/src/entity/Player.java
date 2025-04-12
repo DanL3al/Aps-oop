@@ -1,5 +1,7 @@
 package entity;
 
+import main.GamePanel;
+
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -7,17 +9,23 @@ import java.io.IOException;
 
 public class Player {
 
-    private int x,y,width,height;
+    private int worldX,worldY,width,height;
     private int speed;
     private final int SCALE = 3;
     private String direction;
     private BufferedImage up1,up2,down1,down2,left1,left2,right1,right2;
     private int spriteCounter;
     private int spriteNum;
+    private GamePanel gp;
+    private final int SCREENX;
+    private final int SCREENY;
 
-    public Player(){
+    public Player(GamePanel gp){
+        this.gp = gp;
         setDefaultValues();
         getPlayerImage();
+        SCREENX = gp.getScreenWidth() / 2 - gp.getTileSize() / 2;
+        SCREENY = gp.getScreenHeight() / 2 - gp.getTileSize() / 2;
     }
 
 
@@ -55,23 +63,23 @@ public class Player {
                 break;
         }
 
-        g2.drawImage(image,x,y,width,height,null);
+        g2.drawImage(image,SCREENX,SCREENY,width,height,null);
 
 
     }
 
     public void update(boolean up,boolean down, boolean left,boolean right){
         if(up){
-            this.y -= speed;
+            this.worldY -= speed;
             this.direction = "up";
         }else if(down){
-            this.y += speed;
+            this.worldY += speed;
             this.direction = "down";
         }else if(left){
-            this.x -= speed;
+            this.worldX -= speed;
             this.direction = "left";
         }else if(right){
-            this.x += speed;
+            this.worldX += speed;
             this.direction = "right";
         }
 
@@ -87,8 +95,8 @@ public class Player {
     }
 
     private void setDefaultValues(){
-        this.x = 0;
-        this.y = 0;
+        this.worldX = gp.getTileSize() * 23;
+        this.worldY = gp.getTileSize() * 21;
         this.speed = 3;
         this.width = 16 * SCALE;
         this.height = 16 * SCALE;
@@ -112,4 +120,19 @@ public class Player {
         }
     }
 
+    public int getWorldX() {
+        return worldX;
+    }
+
+    public int getWorldY() {
+        return worldY;
+    }
+
+    public int getSCREENX() {
+        return SCREENX;
+    }
+
+    public int getSCREENY() {
+        return SCREENY;
+    }
 }
