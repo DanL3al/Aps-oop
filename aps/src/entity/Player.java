@@ -128,14 +128,14 @@ public class Player {
 
     private void getPlayerImage(){
         try{
-            up1 = ImageIO.read(getClass().getClassLoader().getResourceAsStream("assets/character_up_1.png"));
-            up2 = ImageIO.read(getClass().getClassLoader().getResourceAsStream("assets/character_up_2.png"));
-            down1 = ImageIO.read(getClass().getClassLoader().getResourceAsStream("assets/character_down_1.png"));
-            down2 = ImageIO.read(getClass().getClassLoader().getResourceAsStream("assets/character_down_2.png"));
-            left1 = ImageIO.read(getClass().getClassLoader().getResourceAsStream("assets/character_left_1.png"));
-            left2 = ImageIO.read(getClass().getClassLoader().getResourceAsStream("assets/character_left_2.png"));
-            right1 = ImageIO.read(getClass().getClassLoader().getResourceAsStream("assets/character_right_1.png"));
-            right2 = ImageIO.read(getClass().getClassLoader().getResourceAsStream("assets/character_right_2.png"));
+            up1 = ImageIO.read(getClass().getClassLoader().getResourceAsStream("assets/player_up_1.png"));
+            up2 = ImageIO.read(getClass().getClassLoader().getResourceAsStream("assets/player_up_2.png"));
+            down1 = ImageIO.read(getClass().getClassLoader().getResourceAsStream("assets/player_down_1.png"));
+            down2 = ImageIO.read(getClass().getClassLoader().getResourceAsStream("assets/player_down_2.png"));
+            left1 = ImageIO.read(getClass().getClassLoader().getResourceAsStream("assets/player_left_1.png"));
+            left2 = ImageIO.read(getClass().getClassLoader().getResourceAsStream("assets/player_left_2.png"));
+            right1 = ImageIO.read(getClass().getClassLoader().getResourceAsStream("assets/player_right_1.png"));
+            right2 = ImageIO.read(getClass().getClassLoader().getResourceAsStream("assets/player_right_2.png"));
 
         }catch(IOException e){
             e.printStackTrace();
