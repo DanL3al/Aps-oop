@@ -20,7 +20,9 @@ public class Player {
     private final int SCREENX;
     private final int SCREENY;
     private Rectangle solidArea;
+    private int solidAreaDefaultX,solidAreaDefaultY;
     private boolean collisionOn = false;
+    private boolean collidingWithObject = false;
 
     public Player(GamePanel gp){
         this.gp = gp;
@@ -28,8 +30,9 @@ public class Player {
         getPlayerImage();
         SCREENX = gp.getScreenWidth() / 2 - gp.getTileSize() / 2;
         SCREENY = gp.getScreenHeight() / 2 - gp.getTileSize() / 2;
-
-        solidArea = new Rectangle(14,22,18,26);
+        solidAreaDefaultX = 14;
+        solidAreaDefaultY = 22;
+        solidArea = new Rectangle(solidAreaDefaultX + SCREENX,solidAreaDefaultY + SCREENY,20,26);
     }
 
 
@@ -68,7 +71,6 @@ public class Player {
         }
 
         g2.drawImage(image,SCREENX,SCREENY,width,height,null);
-
     }
 
     public void update(boolean up,boolean down, boolean left,boolean right){
@@ -86,6 +88,7 @@ public class Player {
 
             collisionOn = false;
             gp.cChecker.checkTile(this);
+            gp.cChecker.checkObject(this,gp.getObjects());
 
             if(!collisionOn){
                 switch(direction){
@@ -102,6 +105,7 @@ public class Player {
                         this.worldX += speed;
                         break;
                 }
+                setSolidArea();
             }
 
             spriteCounter++;
@@ -140,6 +144,27 @@ public class Player {
         }catch(IOException e){
             e.printStackTrace();
         }
+    }
+
+    private void setSolidArea(){
+        this.solidArea.x = this.SCREENX + solidAreaDefaultX;
+        this.solidArea.y = this.SCREENY + solidAreaDefaultY;
+    }
+
+    public boolean isCollidingWithObject() {
+        return collidingWithObject;
+    }
+
+    public void setCollidingWithObject(boolean collidingWithObject) {
+        this.collidingWithObject = collidingWithObject;
+    }
+
+    public int getSolidAreaDefaultX() {
+        return solidAreaDefaultX;
+    }
+
+    public int getSolidAreaDefaultY() {
+        return solidAreaDefaultY;
     }
 
     public int getWorldX() {
@@ -181,5 +206,9 @@ public class Player {
 
     public void setCollisionOn(boolean collision){
         this.collisionOn = collision;
+    }
+
+    public Rectangle getSolidArea() {
+        return solidArea;
     }
 }

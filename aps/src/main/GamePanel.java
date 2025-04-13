@@ -2,11 +2,14 @@ package main;
 
 import entity.Player;
 import keyhandler.KeyHandler;
+import objects.Object;
+import objects.ObjectManager;
 import tile.Tile;
 import tile.TileManager;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.ArrayList;
 
 public class GamePanel extends JPanel implements Runnable{
 
@@ -23,6 +26,7 @@ public class GamePanel extends JPanel implements Runnable{
     private Thread thread;
     private Player player;
     private TileManager tileM;
+    private ObjectManager objectManager;
     public CollisionChecker cChecker = new CollisionChecker(this);
     private final int FPS = 60;
 
@@ -42,6 +46,7 @@ public class GamePanel extends JPanel implements Runnable{
         this.setBackground(Color.black);
         player = new Player(this);
         tileM = new TileManager(this);
+        objectManager = new ObjectManager(this);
     }
 
     public void startGameThread(){
@@ -53,8 +58,8 @@ public class GamePanel extends JPanel implements Runnable{
         super.paintComponent(g);
         Graphics2D g2 = (Graphics2D) g;
         tileM.draw(g2);
+        objectManager.draw(g2);
         player.draw(g2);
-
     }
 
     public void update(){
@@ -121,9 +126,11 @@ public class GamePanel extends JPanel implements Runnable{
     public int getPlayerWorldX(){
         return player.getWorldX();
     }
+
     public int getPlayerWorldY(){
         return player.getWorldY();
     }
+
     public int getPlayerSCREENX(){
         return player.getSCREENX();
     }
@@ -135,5 +142,11 @@ public class GamePanel extends JPanel implements Runnable{
     }
     public Tile getTile(int index){
         return tileM.getTile(index);
+    }
+    public void addObject(Object object){
+        objectManager.addObject(object);
+    }
+    public ArrayList<Object> getObjects(){
+        return objectManager.getObjects();
     }
 }

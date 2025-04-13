@@ -1,6 +1,11 @@
 package main;
 
 import entity.Player;
+import objects.Object;
+import objects.ObjectManager;
+
+import java.awt.*;
+import java.util.ArrayList;
 
 public class CollisionChecker {
 
@@ -11,10 +16,10 @@ public class CollisionChecker {
     }
 
     public void checkTile(Player entity){
-        int entityLeftWorldX = entity.getWorldX() + entity.getSolidAreaX();
-        int entityRightWorldX = entity.getWorldX() + entity.getSolidAreaX() + entity.getSolidAreaWidth();
-        int entityTopWorldY = entity.getWorldY() + entity.getSolidAreaY();
-        int entityBottomWorldY = entity.getWorldY() + entity.getSolidAreaY() + entity.getSolidAreaHeight();
+        int entityLeftWorldX = entity.getWorldX() + entity.getSolidAreaDefaultX();
+        int entityRightWorldX = entity.getWorldX() + entity.getSolidAreaDefaultX() + entity.getSolidAreaWidth();
+        int entityTopWorldY = entity.getWorldY() + entity.getSolidAreaDefaultY();
+        int entityBottomWorldY = entity.getWorldY() + entity.getSolidAreaDefaultY() + entity.getSolidAreaHeight();
 
         int entityLeftCol = entityLeftWorldX/gp.getTileSize();
         int entityRightCol = entityRightWorldX/gp.getTileSize();
@@ -56,6 +61,22 @@ public class CollisionChecker {
                     entity.setCollisionOn(true);
                 }
                 break;
+        }
+    }
+
+    public void checkObject(Player player, ArrayList<Object> objects){
+
+        if(!objects.isEmpty()){
+            for (Object object : objects){
+                int screenX = object.getWorldX() - gp.getPlayerWorldX() + gp.getPlayerSCREENX();
+                int screenY = object.getWorldY() - gp.getPlayerWorldY() + gp.getPlayerSCREENY();
+
+                Rectangle objectRect = new Rectangle(screenX,screenY,48,48);
+
+                if(player.getSolidArea().intersects(objectRect)){
+                    System.out.println("Sim");
+                }
+            }
         }
     }
 }
