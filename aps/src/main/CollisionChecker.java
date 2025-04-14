@@ -67,16 +67,18 @@ public class CollisionChecker {
     public void checkObject(Player player, ArrayList<Object> objects){
 
         if(!objects.isEmpty()){
-            for (Object object : objects){
+            for (int i = 0; i < objects.size(); i++) {
+                Object object = objects.get(i);
                 int screenX = object.getWorldX() - gp.getPlayerWorldX() + gp.getPlayerSCREENX();
                 int screenY = object.getWorldY() - gp.getPlayerWorldY() + gp.getPlayerSCREENY();
 
-                Rectangle objectRect = new Rectangle(screenX,screenY,48,48);
+                Rectangle objectRect = new Rectangle(screenX, screenY, 48, 48);
 
                 if(player.getSolidArea().intersects(objectRect)){
-                    System.out.println("Sim");
+                    player.setCollidingWithObject(true);
                 }
             }
         }
     }
 }
+

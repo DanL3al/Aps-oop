@@ -13,7 +13,7 @@ public class Player {
     private int speed;
     private final int SCALE = 3;
     private String direction;
-    private BufferedImage up1,up2,down1,down2,left1,left2,right1,right2;
+    private BufferedImage up1,up2, up_interacting_1,down1,down2,left1,left2,left_interacting_1,right1,right2,right_interacting_1;
     private int spriteCounter;
     private int spriteNum;
     private GamePanel gp;
@@ -23,6 +23,7 @@ public class Player {
     private int solidAreaDefaultX,solidAreaDefaultY;
     private boolean collisionOn = false;
     private boolean collidingWithObject = false;
+    private boolean pickingObject = false;
 
     public Player(GamePanel gp){
         this.gp = gp;
@@ -41,10 +42,14 @@ public class Player {
 
         switch (direction){
             case "up":
-                if(spriteNum == 1){
-                    image = up1;
+                if(pickingObject){
+                    image = up_interacting_1;
                 }else{
-                    image = up2;
+                    if(spriteNum == 1){
+                        image = up1;
+                    }else{
+                        image = up2;
+                    }
                 }
                 break;
             case "down":
@@ -55,67 +60,87 @@ public class Player {
                 }
                 break;
             case "left":
-                if(spriteNum == 1){
-                    image = left1;
+                if(pickingObject){
+                    image = left_interacting_1;
                 }else{
-                    image = left2;
+                    if(spriteNum == 1){
+                        image = left1;
+                    }else{
+                        image = left2;
+                    }
                 }
                 break;
             case "right":
-                if(spriteNum == 1){
-                    image = right1;
+                if(pickingObject){
+                    image = right_interacting_1;
                 }else{
-                    image = right2;
+                    if(spriteNum == 1){
+                        image = right1;
+                    }else{
+                        image = right2;
+                    }
                 }
                 break;
         }
-
         g2.drawImage(image,SCREENX,SCREENY,width,height,null);
     }
 
-    public void update(boolean up,boolean down, boolean left,boolean right){
+    public void update(boolean up,boolean down, boolean left,boolean right,boolean ePressed){
 
-        if(up || down || left || right){
-            if(up){
-                this.direction = "up";
-            }else if(down){
-                this.direction = "down";
-            }else if(left){
-                this.direction = "left";
-            }else if(right){
-                this.direction = "right";
+        if(collidingWithObject){
+            if(ePressed){
+                pickingObject = true;
+            }else{
+                pickingObject = false;
             }
+        }
 
-            collisionOn = false;
-            gp.cChecker.checkTile(this);
-            gp.cChecker.checkObject(this,gp.getObjects());
 
-            if(!collisionOn){
-                switch(direction){
-                    case "up":
-                        this.worldY -= speed;
-                        break;
-                    case "down":
-                        this.worldY += speed;
-                        break;
-                    case "left":
-                        this.worldX -= speed;
-                        break;
-                    case "right":
-                        this.worldX += speed;
-                        break;
+        if(!ePressed){
+            if(up || down || left || right){
+                if(up){
+                    this.direction = "up";
+                }else if(down){
+                    this.direction = "down";
+                }else if(left){
+                    this.direction = "left";
+                }else if(right){
+                    this.direction = "right";
                 }
-                setSolidArea();
-            }
 
-            spriteCounter++;
-            if(spriteCounter > 12){
-                if(spriteNum == 1){
-                    spriteNum = 2;
-                }else{
-                    spriteNum = 1;
+
+
+                collisionOn = false;
+                gp.cChecker.checkTile(this);
+                gp.cChecker.checkObject(this,gp.getObjects());
+
+                if(!collisionOn){
+                    switch(direction){
+                        case "up":
+                            this.worldY -= speed;
+                            break;
+                        case "down":
+                            this.worldY += speed;
+                            break;
+                        case "left":
+                            this.worldX -= speed;
+                            break;
+                        case "right":
+                            this.worldX += speed;
+                            break;
+                    }
+                    setSolidArea();
                 }
-                spriteCounter = 0;
+
+                spriteCounter++;
+                if(spriteCounter > 12){
+                    if(spriteNum == 1){
+                        spriteNum = 2;
+                    }else{
+                        spriteNum = 1;
+                    }
+                    spriteCounter = 0;
+                }
             }
         }
     }
@@ -134,12 +159,15 @@ public class Player {
         try{
             up1 = ImageIO.read(getClass().getClassLoader().getResourceAsStream("assets/player_up_1.png"));
             up2 = ImageIO.read(getClass().getClassLoader().getResourceAsStream("assets/player_up_2.png"));
+            up_interacting_1 = ImageIO.read(getClass().getClassLoader().getResourceAsStream("assets/player_interacting_top_1.png"));
             down1 = ImageIO.read(getClass().getClassLoader().getResourceAsStream("assets/player_down_1.png"));
             down2 = ImageIO.read(getClass().getClassLoader().getResourceAsStream("assets/player_down_2.png"));
             left1 = ImageIO.read(getClass().getClassLoader().getResourceAsStream("assets/player_left_1.png"));
             left2 = ImageIO.read(getClass().getClassLoader().getResourceAsStream("assets/player_left_2.png"));
+            left_interacting_1 = ImageIO.read(getClass().getClassLoader().getResourceAsStream("assets/player_interacting_left_1.png"));
             right1 = ImageIO.read(getClass().getClassLoader().getResourceAsStream("assets/player_right_1.png"));
             right2 = ImageIO.read(getClass().getClassLoader().getResourceAsStream("assets/player_right_2.png"));
+            right_interacting_1 = ImageIO.read(getClass().getClassLoader().getResourceAsStream("assets/player_interacting_right_1.png"));
 
         }catch(IOException e){
             e.printStackTrace();
