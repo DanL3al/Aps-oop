@@ -62,8 +62,8 @@ public class GamePanel extends JPanel implements Runnable{
         player.draw(g2);
     }
 
-    public void update(){
-        player.update(keyH.isUpPressed(),keyH.isDownPressed(),keyH.isLeftPressed(),keyH.isRightPressed(),keyH.isePressed());
+    public void update(long currentTime){
+        player.update(keyH.isUpPressed(),keyH.isDownPressed(),keyH.isLeftPressed(),keyH.isRightPressed(),keyH.isePressed(),currentTime);
     }
 
 
@@ -80,7 +80,7 @@ public class GamePanel extends JPanel implements Runnable{
             lastTime = currentTime;
 
             if(delta >= 1){
-                update();
+                update(currentTime);
                 repaint();
                 delta--;
             }

@@ -1,11 +1,13 @@
 package entity;
 
 import main.GamePanel;
+import objects.Object;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.util.ArrayList;
 
 public class Player {
 
@@ -24,6 +26,8 @@ public class Player {
     private boolean collisionOn = false;
     private boolean collidingWithObject = false;
     private boolean pickingObject = false;
+    private final long PICKUP_OBJECT_TIMER = 1000000000L;
+    private long initialTime;
 
     public Player(GamePanel gp){
         this.gp = gp;
@@ -85,14 +89,16 @@ public class Player {
         g2.drawImage(image,SCREENX,SCREENY,width,height,null);
     }
 
-    public void update(boolean up,boolean down, boolean left,boolean right,boolean ePressed){
+    public void update(boolean up,boolean down, boolean left,boolean right,boolean ePressed, long currentTime){
 
         if(collidingWithObject){
             if(ePressed){
                 pickingObject = true;
+                getObject();
             }else{
                 pickingObject = false;
             }
+
         }
 
 
@@ -107,8 +113,6 @@ public class Player {
                 }else if(right){
                     this.direction = "right";
                 }
-
-
 
                 collisionOn = false;
                 gp.cChecker.checkTile(this);
@@ -171,6 +175,21 @@ public class Player {
 
         }catch(IOException e){
             e.printStackTrace();
+        }
+    }
+
+    private void getObject(){
+        ArrayList<Object> obj = gp.getObjects();
+        for (int i = 0; i < obj.size(); i++) {
+            Object object = obj.get(i);
+            int screenX = object.getWorldX() - gp.getPlayerWorldX() + gp.getPlayerSCREENX();
+            int screenY = object.getWorldY() - gp.getPlayerWorldY() + gp.getPlayerSCREENY();
+
+            Rectangle objectRect = new Rectangle(screenX, screenY, 48, 48);
+
+            if(getSolidArea().intersects(objectRect)){
+                obj.remove(i);
+            }
         }
     }
 
