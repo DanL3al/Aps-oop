@@ -28,6 +28,8 @@ public class Player {
     private boolean pickingObject = false;
     private final long PICKUP_OBJECT_TIMER = 1000000000L;
     private long initialTime;
+    private int plasticCollected,glassCollected,paperCollected,metalCollected;
+    private boolean inventoryFull;
 
     public Player(GamePanel gp){
         this.gp = gp;
@@ -91,6 +93,10 @@ public class Player {
 
     public void update(boolean up,boolean down, boolean left,boolean right,boolean ePressed, long currentTime){
 
+        if(plasticCollected + metalCollected + paperCollected + glassCollected == 1){
+            inventoryFull = true;
+        }
+
         if(collidingWithObject){
             if(ePressed){
                 pickingObject = true;
@@ -98,9 +104,7 @@ public class Player {
             }else{
                 pickingObject = false;
             }
-
         }
-
 
         if(!ePressed){
             if(up || down || left || right){
@@ -182,13 +186,29 @@ public class Player {
         ArrayList<Object> obj = gp.getObjects();
         for (int i = 0; i < obj.size(); i++) {
             Object object = obj.get(i);
-            int screenX = object.getWorldX() - gp.getPlayerWorldX() + gp.getPlayerSCREENX();
-            int screenY = object.getWorldY() - gp.getPlayerWorldY() + gp.getPlayerSCREENY();
+            int screenX = object.getWorldX() - worldX + SCREENX;
+            int screenY = object.getWorldY() - worldY + SCREENY;
 
             Rectangle objectRect = new Rectangle(screenX, screenY, 48, 48);
 
             if(getSolidArea().intersects(objectRect)){
-                obj.remove(i);
+                if(!inventoryFull){
+                    switch (object.getType()){
+                        case "plastic":
+                            plasticCollected++;
+                            break;
+                        case "metal":
+                            metalCollected++;
+                            break;
+                        case "paper":
+                            paperCollected++;
+                            break;
+                        case "glass":
+                            glassCollected++;
+                            break;
+                    }
+                    obj.remove(i);
+                }
             }
         }
     }
@@ -257,5 +277,25 @@ public class Player {
 
     public Rectangle getSolidArea() {
         return solidArea;
+    }
+
+    public int getMetalCollected() {
+        return metalCollected;
+    }
+
+    public int getPaperCollected() {
+        return paperCollected;
+    }
+
+    public int getGlassCollected() {
+        return glassCollected;
+    }
+
+    public int getPlasticCollected() {
+        return plasticCollected;
+    }
+
+    public boolean isInventoryFull() {
+        return inventoryFull;
     }
 }

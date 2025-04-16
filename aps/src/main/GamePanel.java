@@ -28,6 +28,7 @@ public class GamePanel extends JPanel implements Runnable{
     private TileManager tileM;
     private ObjectManager objectManager;
     public CollisionChecker cChecker = new CollisionChecker(this);
+    private UI ui = new UI(this);
     private final int FPS = 60;
 
     private final int MAXWORLDCOL = 50;
@@ -60,6 +61,8 @@ public class GamePanel extends JPanel implements Runnable{
         tileM.draw(g2);
         objectManager.draw(g2);
         player.draw(g2);
+        ui.draw(g2);
+        g2.dispose();
     }
 
     public void update(long currentTime){
@@ -148,5 +151,11 @@ public class GamePanel extends JPanel implements Runnable{
     }
     public ArrayList<Object> getObjects(){
         return objectManager.getObjects();
+    }
+    public int getPlasticCollected(){
+        return player.getPlasticCollected();
+    }
+    public boolean getInventoryFull(){
+        return player.isInventoryFull();
     }
 }

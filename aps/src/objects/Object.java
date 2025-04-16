@@ -14,6 +14,7 @@ public abstract class Object {
     Rectangle solidArea;
     boolean collision;
     int solidAreaDefaultX,solidAreaDefaultY;
+    String type;
 
     //pass x and y position through the constructor
     public Object(int x, int y, String imgPath){
@@ -37,6 +38,9 @@ public abstract class Object {
         return image;
     }
 
+    public String getType() {
+        return type;
+    }
 
     public boolean isCollision() {
         return collision;
