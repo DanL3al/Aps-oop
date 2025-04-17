@@ -33,7 +33,9 @@ public class ObjectManager {
                         object.getWorldY() - gp.getTileSize() < gp.getPlayerWorldY() + gp.getPlayerSCREENY()) {
                     g2.drawImage(object.getImage(), screenX, screenY, gp.getTileSize(), gp.getTileSize(), null);
                     if(object.collision){
-                        object.button.draw(g2,screenX,screenY,32,32);
+                        if(gp.getGameState() != gp.getPauseState()){
+                            object.button.draw(g2,screenX,screenY,32,32);
+                        }
                     }
                 }
             }

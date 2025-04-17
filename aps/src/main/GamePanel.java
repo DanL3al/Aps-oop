@@ -41,6 +41,10 @@ public class GamePanel extends JPanel implements Runnable{
     private final int WORLDWIDTH = tileSize * MAXWORLDCOL;
     private final int WORLDHEIGHT = tileSize * MAXWORLDROW;
 
+    private int gameState;
+    private int playState = 1;
+    private int pauseState = 2;
+
 
 
     public GamePanel(){
@@ -55,6 +59,7 @@ public class GamePanel extends JPanel implements Runnable{
         objectManager = new ObjectManager(this);
         trashCanManager = new TrashCanManager(this);
         plasticCan = new PlasticCan(this);
+        gameState = playState;
     }
 
     public void startGameThread(){
@@ -74,7 +79,14 @@ public class GamePanel extends JPanel implements Runnable{
     }
 
     public void update(long currentTime){
-        player.update(keyH.isUpPressed(),keyH.isDownPressed(),keyH.isLeftPressed(),keyH.isRightPressed(),keyH.isePressed(),currentTime);
+        if(keyH.ispPressed()){
+            gameState = pauseState;
+        }else{
+            gameState = playState;
+        }
+        if(gameState == playState){
+            player.update(keyH.isUpPressed(),keyH.isDownPressed(),keyH.isLeftPressed(),keyH.isRightPressed(),keyH.isePressed(),currentTime);
+        }
     }
 
 
@@ -178,4 +190,12 @@ public class GamePanel extends JPanel implements Runnable{
     public ArrayList<TrashCan> getTrashCans(){
         return trashCanManager.getTrashCans();
     }
+
+    public int getGameState() {
+        return gameState;
+    }
+    public int getPauseState(){
+        return this.pauseState;
+    }
 }
+
