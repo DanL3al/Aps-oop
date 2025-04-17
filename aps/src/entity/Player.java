@@ -99,7 +99,7 @@ public class Player {
 
         inventoryFull = itensStored >= 2;
 
-        if(inventoryFull){
+        if(itensStored > 0){
             gp.cChecker.checkTrashCanCollision(this,gp.getTrashCans());
         }
 
@@ -182,7 +182,7 @@ public class Player {
         left2 = setup("player_left_2");
         left_interacting_1 = setup("player_interacting_left_1");
         right1 = setup("player_right_1");
-        right2 = setup("player_right_1");
+        right2 = setup("player_right_2");
         right_interacting_1 = setup("player_interacting_right_1");
     }
 
