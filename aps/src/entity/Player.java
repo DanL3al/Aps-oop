@@ -29,6 +29,7 @@ public class Player {
     private final long PICKUP_OBJECT_TIMER = 1000000000L;
     private long initialTime;
     private int plasticCollected,glassCollected,paperCollected,metalCollected;
+    private int itensStored;
     private boolean inventoryFull;
 
     public Player(GamePanel gp){
@@ -93,14 +94,25 @@ public class Player {
 
     public void update(boolean up,boolean down, boolean left,boolean right,boolean ePressed, long currentTime){
 
-        if(plasticCollected + metalCollected + paperCollected + glassCollected == 1){
+        itensStored = plasticCollected + metalCollected + paperCollected + glassCollected;
+
+        if(itensStored >= 1){
             inventoryFull = true;
+        }else{
+            inventoryFull = false;
         }
 
+        if(inventoryFull){
+            gp.cChecker.checkTrashCanCollision(this,gp.getTrashCans());
+        }
+
+        gp.cChecker.checkObject(this,gp.getObjects());
         if(collidingWithObject){
             if(ePressed){
                 pickingObject = true;
-                getObject();
+                if(!inventoryFull){
+                    getObject();
+                }
             }else{
                 pickingObject = false;
             }
@@ -120,7 +132,7 @@ public class Player {
 
                 collisionOn = false;
                 gp.cChecker.checkTile(this);
-                gp.cChecker.checkObject(this,gp.getObjects());
+
 
                 if(!collisionOn){
                     switch(direction){
@@ -297,5 +309,9 @@ public class Player {
 
     public boolean isInventoryFull() {
         return inventoryFull;
+    }
+
+    public void setPlasticCollected(int plasticCollected) {
+        this.plasticCollected = plasticCollected;
     }
 }

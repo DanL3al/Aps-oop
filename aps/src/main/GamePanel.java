@@ -6,6 +6,9 @@ import objects.Object;
 import objects.ObjectManager;
 import tile.Tile;
 import tile.TileManager;
+import trashcan.PlasticCan;
+import trashcan.TrashCan;
+import trashcan.TrashCanManager;
 
 import javax.swing.*;
 import java.awt.*;
@@ -27,8 +30,10 @@ public class GamePanel extends JPanel implements Runnable{
     private Player player;
     private TileManager tileM;
     private ObjectManager objectManager;
+    private TrashCanManager trashCanManager;
     public CollisionChecker cChecker = new CollisionChecker(this);
     private UI ui = new UI(this);
+    private PlasticCan plasticCan;
     private final int FPS = 60;
 
     private final int MAXWORLDCOL = 50;
@@ -48,6 +53,8 @@ public class GamePanel extends JPanel implements Runnable{
         player = new Player(this);
         tileM = new TileManager(this);
         objectManager = new ObjectManager(this);
+        trashCanManager = new TrashCanManager(this);
+        plasticCan = new PlasticCan(this);
     }
 
     public void startGameThread(){
@@ -60,6 +67,7 @@ public class GamePanel extends JPanel implements Runnable{
         Graphics2D g2 = (Graphics2D) g;
         tileM.draw(g2);
         objectManager.draw(g2);
+        trashCanManager.draw(g2);
         player.draw(g2);
         ui.draw(g2);
         g2.dispose();
@@ -157,5 +165,13 @@ public class GamePanel extends JPanel implements Runnable{
     }
     public boolean getInventoryFull(){
         return player.isInventoryFull();
+    }
+
+    public TrashCanManager getTrashCanManager() {
+        return trashCanManager;
+    }
+
+    public ArrayList<TrashCan> getTrashCans(){
+        return trashCanManager.getTrashCans();
     }
 }

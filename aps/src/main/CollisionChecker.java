@@ -3,6 +3,8 @@ package main;
 import entity.Player;
 import objects.Object;
 import objects.ObjectManager;
+import trashcan.TrashCan;
+import trashcan.TrashCanManager;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -79,6 +81,31 @@ public class CollisionChecker {
                 }
             }
         }
+    }
+
+    public void checkTrashCanCollision(Player player, ArrayList<TrashCan> trashCans){
+
+        if(!trashCans.isEmpty()){
+            for (int i = 0; i < trashCans.size(); i++) {
+                TrashCan trashCan = trashCans.get(i);
+                int screenX = trashCan.getWorldX() - gp.getPlayerWorldX() + gp.getPlayerSCREENX();
+                int screenY = trashCan.getWorldY() - gp.getPlayerWorldY() + gp.getPlayerSCREENY();
+
+                Rectangle objectRect = new Rectangle(screenX, screenY, 48, 48);
+
+                if(player.getSolidArea().intersects(objectRect)){
+                    player.setCollisionOn(true);
+                    switch (trashCan.getType()){
+                        case "plastic":
+                            player.setPlasticCollected(0);
+                            break;
+                        case "metal":
+                            break;
+                    }
+                }
+            }
+        }
+
     }
 }
 
