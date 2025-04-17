@@ -96,11 +96,7 @@ public class Player {
 
         itensStored = plasticCollected + metalCollected + paperCollected + glassCollected;
 
-        if(itensStored >= 1){
-            inventoryFull = true;
-        }else{
-            inventoryFull = false;
-        }
+        inventoryFull = itensStored >= 2;
 
         if(inventoryFull){
             gp.cChecker.checkTrashCanCollision(this,gp.getTrashCans());

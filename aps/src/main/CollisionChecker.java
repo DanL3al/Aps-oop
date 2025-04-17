@@ -78,6 +78,9 @@ public class CollisionChecker {
 
                 if(player.getSolidArea().intersects(objectRect)){
                     player.setCollidingWithObject(true);
+                    object.setCollision(true);
+                }else{
+                    object.setCollision(false);
                 }
             }
         }

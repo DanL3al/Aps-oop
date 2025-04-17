@@ -1,5 +1,6 @@
 package objects;
 
+import buttons.Button;
 import main.GamePanel;
 
 import javax.imageio.ImageIO;
@@ -15,16 +16,18 @@ public abstract class Object {
     boolean collision;
     int solidAreaDefaultX,solidAreaDefaultY;
     String type;
+    Button button;
 
     //pass x and y position through the constructor
     public Object(int x, int y, String imgPath){
         this.worldX = x;
         this.worldY = y;
-        this.collision = true;
+        this.collision = false;
         this.image = setImage(imgPath);
         solidAreaDefaultX = x;
         solidAreaDefaultY = y;
         this.solidArea = new Rectangle(x,y,48,48);
+        button = new Button();
     }
 
 
@@ -36,6 +39,10 @@ public abstract class Object {
             e.printStackTrace();
         }
         return image;
+    }
+
+    public void setCollision(boolean collision) {
+        this.collision = collision;
     }
 
     public String getType() {

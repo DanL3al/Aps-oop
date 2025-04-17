@@ -32,6 +32,9 @@ public class ObjectManager {
                         object.getWorldY() + gp.getTileSize() > gp.getPlayerWorldY() - gp.getPlayerSCREENY() &&
                         object.getWorldY() - gp.getTileSize() < gp.getPlayerWorldY() + gp.getPlayerSCREENY()) {
                     g2.drawImage(object.getImage(), screenX, screenY, gp.getTileSize(), gp.getTileSize(), null);
+                    if(object.collision){
+                        object.button.draw(g2,screenX,screenY,32,32);
+                    }
                 }
             }
         }
@@ -42,6 +45,10 @@ public class ObjectManager {
         addObject(soda);
         Chips chip = new Chips(23* gp.getTileSize(), 40 * gp.getTileSize());
         addObject(chip);
+        Soda soda1 = new Soda(36*gp.getTileSize(),21 * gp.getTileSize());
+        addObject(soda1);
+        Chips chip1 = new Chips(12*gp.getTileSize(), 21*gp.getTileSize());
+        addObject(chip1);
     }
 
 
