@@ -1,6 +1,7 @@
 package entity;
 
 import main.GamePanel;
+import main.UtilityTool;
 import objects.Object;
 
 import javax.imageio.ImageIO;
@@ -172,22 +173,17 @@ public class Player {
     }
 
     private void getPlayerImage(){
-        try{
-            up1 = ImageIO.read(getClass().getClassLoader().getResourceAsStream("assets/player_up_1.png"));
-            up2 = ImageIO.read(getClass().getClassLoader().getResourceAsStream("assets/player_up_2.png"));
-            up_interacting_1 = ImageIO.read(getClass().getClassLoader().getResourceAsStream("assets/player_interacting_top_1.png"));
-            down1 = ImageIO.read(getClass().getClassLoader().getResourceAsStream("assets/player_down_1.png"));
-            down2 = ImageIO.read(getClass().getClassLoader().getResourceAsStream("assets/player_down_2.png"));
-            left1 = ImageIO.read(getClass().getClassLoader().getResourceAsStream("assets/player_left_1.png"));
-            left2 = ImageIO.read(getClass().getClassLoader().getResourceAsStream("assets/player_left_2.png"));
-            left_interacting_1 = ImageIO.read(getClass().getClassLoader().getResourceAsStream("assets/player_interacting_left_1.png"));
-            right1 = ImageIO.read(getClass().getClassLoader().getResourceAsStream("assets/player_right_1.png"));
-            right2 = ImageIO.read(getClass().getClassLoader().getResourceAsStream("assets/player_right_2.png"));
-            right_interacting_1 = ImageIO.read(getClass().getClassLoader().getResourceAsStream("assets/player_interacting_right_1.png"));
-
-        }catch(IOException e){
-            e.printStackTrace();
-        }
+        up1 = setup("player_up_1");
+        up2 = setup("player_up_2");
+        up_interacting_1 = setup("player_interacting_top_1");
+        down1 = setup("player_down_1");
+        down2 = setup("player_down_2");
+        left1 = setup("player_left_1");
+        left2 = setup("player_left_2");
+        left_interacting_1 = setup("player_interacting_left_1");
+        right1 = setup("player_right_1");
+        right2 = setup("player_right_1");
+        right_interacting_1 = setup("player_interacting_right_1");
     }
 
     private void getObject(){
@@ -219,6 +215,19 @@ public class Player {
                 }
             }
         }
+    }
+
+    private BufferedImage setup(String imageName){
+        UtilityTool uTool = new UtilityTool();
+        BufferedImage image = null;
+        try{
+            image = ImageIO.read(getClass().getClassLoader().getResourceAsStream("assets/" + imageName + ".png"));
+            image = uTool.scaledImage(image,gp.getTileSize(),gp.getTileSize());
+
+        }catch (IOException e){
+            e.printStackTrace();
+        }
+        return image;
     }
 
     private void setSolidArea(){
