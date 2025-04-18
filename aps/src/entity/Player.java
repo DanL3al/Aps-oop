@@ -10,7 +10,7 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.ArrayList;
 
-public class Player {
+public class Player extends Entity{
 
     private int worldX,worldY,width,height;
     private int speed;
@@ -19,7 +19,6 @@ public class Player {
     private BufferedImage up1,up2, up_interacting_1,down1,down2,left1,left2,left_interacting_1,right1,right2,right_interacting_1;
     private int spriteCounter;
     private int spriteNum;
-    private GamePanel gp;
     private final int SCREENX;
     private final int SCREENY;
     private Rectangle solidArea;
@@ -34,7 +33,7 @@ public class Player {
     private boolean inventoryFull;
 
     public Player(GamePanel gp){
-        this.gp = gp;
+        super(gp);
         setDefaultValues();
         getPlayerImage();
         SCREENX = gp.getScreenWidth() / 2 - gp.getTileSize() / 2;
@@ -103,7 +102,7 @@ public class Player {
             gp.cChecker.checkTrashCanCollision(this,gp.getTrashCans());
         }
 
-        gp.cChecker.checkObject(this,gp.getObjects());
+        gp.cChecker.checkPlayerObject(this,gp.getObjects());
         if(collidingWithObject){
             if(ePressed){
                 pickingObject = true;
@@ -129,7 +128,7 @@ public class Player {
 
                 collisionOn = false;
                 gp.cChecker.checkTile(this);
-
+                gp.cChecker.checkPlayerEntityCollision(this,gp.getNpcs());
 
                 if(!collisionOn){
                     switch(direction){
@@ -146,7 +145,7 @@ public class Player {
                             this.worldX += speed;
                             break;
                     }
-                    setSolidArea();
+
                 }
 
                 spriteCounter++;
@@ -173,17 +172,17 @@ public class Player {
     }
 
     private void getPlayerImage(){
-        up1 = setup("player_up_1");
-        up2 = setup("player_up_2");
-        up_interacting_1 = setup("player_interacting_top_1");
-        down1 = setup("player_down_1");
-        down2 = setup("player_down_2");
-        left1 = setup("player_left_1");
-        left2 = setup("player_left_2");
-        left_interacting_1 = setup("player_interacting_left_1");
-        right1 = setup("player_right_1");
-        right2 = setup("player_right_2");
-        right_interacting_1 = setup("player_interacting_right_1");
+        up1 = setup("assets/player_up_1");
+        up2 = setup("assets/player_up_2");
+        up_interacting_1 = setup("assets/player_interacting_top_1");
+        down1 = setup("assets/player_down_1");
+        down2 = setup("assets/player_down_2");
+        left1 = setup("assets/player_left_1");
+        left2 = setup("assets/player_left_2");
+        left_interacting_1 = setup("assets/player_interacting_left_1");
+        right1 = setup("assets/player_right_1");
+        right2 = setup("assets/player_right_2");
+        right_interacting_1 = setup("assets/player_interacting_right_1");
     }
 
     private void getObject(){
@@ -217,18 +216,6 @@ public class Player {
         }
     }
 
-    private BufferedImage setup(String imageName){
-        UtilityTool uTool = new UtilityTool();
-        BufferedImage image = null;
-        try{
-            image = ImageIO.read(getClass().getClassLoader().getResourceAsStream("assets/" + imageName + ".png"));
-            image = uTool.scaledImage(image,gp.getTileSize(),gp.getTileSize());
-
-        }catch (IOException e){
-            e.printStackTrace();
-        }
-        return image;
-    }
 
     private void setSolidArea(){
         this.solidArea.x = this.SCREENX + solidAreaDefaultX;
@@ -266,6 +253,7 @@ public class Player {
     public int getSCREENY() {
         return SCREENY;
     }
+
 
     public int getSolidAreaX() {
         return solidArea.x;

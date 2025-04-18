@@ -36,7 +36,7 @@ public class TileManager {
         setup(5,"sand",false);
     }
 
-    public void setup(int index,String imageName,boolean collision){
+    private void setup(int index,String imageName,boolean collision){
         UtilityTool uTool = new UtilityTool();
         try{
             tile[index] = new Tile();
@@ -66,6 +66,7 @@ public class TileManager {
                worldY - gp.getTileSize()< gp.getPlayerWorldY() + gp.getPlayerSCREENY()){
                 g2.drawImage(tile[tileNum].getImage(),screenX,screenY, null);
             }
+
 
             worldCol++;
 

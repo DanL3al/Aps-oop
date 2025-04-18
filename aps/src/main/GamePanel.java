@@ -1,5 +1,8 @@
 package main;
 
+import entity.Entity;
+import entity.NPC;
+import entity.NpcManager;
 import entity.Player;
 import keyhandler.KeyHandler;
 import objects.Object;
@@ -32,6 +35,7 @@ public class GamePanel extends JPanel implements Runnable{
     private ObjectManager objectManager;
     private TrashCanManager trashCanManager;
     public CollisionChecker cChecker = new CollisionChecker(this);
+    private NpcManager npcManager = new NpcManager(this);
     private UI ui = new UI(this);
     private PlasticCan plasticCan;
     private final int FPS = 60;
@@ -73,6 +77,7 @@ public class GamePanel extends JPanel implements Runnable{
         tileM.draw(g2);
         objectManager.draw(g2);
         trashCanManager.draw(g2);
+        npcManager.draw(g2);
         player.draw(g2);
         ui.draw(g2);
         g2.dispose();
@@ -86,6 +91,7 @@ public class GamePanel extends JPanel implements Runnable{
         }
         if(gameState == playState){
             player.update(keyH.isUpPressed(),keyH.isDownPressed(),keyH.isLeftPressed(),keyH.isRightPressed(),keyH.isePressed(),currentTime);
+            npcManager.update();
         }
     }
 
@@ -112,6 +118,14 @@ public class GamePanel extends JPanel implements Runnable{
 
     public int getMiddleOfTheScreen(){
         return this.getWORLDDHEIGHT() / 2;
+    }
+
+    public NPC[] getNpcs(){
+        return npcManager.getNpcs();
+    }
+
+    public Entity getPlayer() {
+        return player;
     }
 
     public int getMaxScreenCol() {
