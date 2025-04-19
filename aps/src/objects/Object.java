@@ -27,7 +27,7 @@ public abstract class Object {
         solidAreaDefaultX = x;
         solidAreaDefaultY = y;
         this.solidArea = new Rectangle(x,y,48,48);
-        button = new Button();
+        button = new Button("e");
     }
 
 

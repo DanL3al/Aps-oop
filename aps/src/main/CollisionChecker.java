@@ -78,7 +78,7 @@ public class CollisionChecker {
 
                 Rectangle objectRect = new Rectangle(screenX, screenY, 48, 48);
 
-                if(player.getSolidArea().intersects(objectRect)){
+                if(player.solidAreaTeste().intersects(objectRect)){
                     player.setCollidingWithObject(true);
                     object.setCollision(true);
                 }else{
@@ -88,7 +88,7 @@ public class CollisionChecker {
         }
     }
 
-    public void checkPlayerEntityCollision(Entity entity, Entity[] target){
+    public void checkPlayerEntityCollision(Player entity, Entity[] target){
 
         for (int i = 0; i < target.length; i++) {
             if(target[i] != null){
@@ -105,24 +105,36 @@ public class CollisionChecker {
                         entity.getSolidArea().y -= entity.getSpeed();
                         if(entity.getSolidArea().intersects(npc.getSolidArea())){
                             entity.setCollisionOn(true);
+                            entity.setCollidingWithNpc(true);
+                        }else{
+                            entity.setCollidingWithNpc(false);
                         }
                         break;
                     case "down":
                         entity.getSolidArea().y += entity.getSpeed();
                         if(entity.getSolidArea().intersects(npc.getSolidArea())){
                             entity.setCollisionOn(true);
+                            entity.setCollidingWithNpc(true);
+                        }else{
+                            entity.setCollidingWithNpc(false);
                         }
                         break;
                     case "left":
                         entity.getSolidArea().x -= entity.getSpeed();
                         if(entity.getSolidArea().intersects(npc.getSolidArea())){
                             entity.setCollisionOn(true);
+                            entity.setCollidingWithNpc(true);
+                        }else{
+                            entity.setCollidingWithNpc(false);
                         }
                         break;
                     case "right":
                         entity.getSolidArea().x += entity.getSpeed();
                         if(entity.getSolidArea().intersects(npc.getSolidArea())){
                             entity.setCollisionOn(true);
+                            entity.setCollidingWithNpc(true);
+                        }else{
+                            entity.setCollidingWithNpc(false);
                         }
                         break;
                 }

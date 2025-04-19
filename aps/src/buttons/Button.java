@@ -12,18 +12,29 @@ public class Button {
     int spriteCounter;
     int spriteNum = 1;
 
-    public Button(){
-        getImage();
+    public Button(String type){
+        getImage(type);
     }
 
 
 
-    private void getImage(){
+    private void getImage(String type){
+        String buttonPath = "";
+
+        switch (type){
+            case "e":
+                buttonPath = "buttonassets/e-button-";
+                break;
+            case "t":
+                buttonPath = "buttonassets/t-button-";
+                break;
+        }
+
         try{
-            button1 = ImageIO.read(getClass().getClassLoader().getResourceAsStream("buttonassets/e-button-1.png"));
-            button2 = ImageIO.read(getClass().getClassLoader().getResourceAsStream("buttonassets/e-button-2.png"));
-            button3 = ImageIO.read(getClass().getClassLoader().getResourceAsStream("buttonassets/e-button-3.png"));
-            button4 = ImageIO.read(getClass().getClassLoader().getResourceAsStream("buttonassets/e-button-2.png"));
+            button1 = ImageIO.read(getClass().getClassLoader().getResourceAsStream(buttonPath+ "1.png"));
+            button2 = ImageIO.read(getClass().getClassLoader().getResourceAsStream(buttonPath+ "2.png"));
+            button3 = ImageIO.read(getClass().getClassLoader().getResourceAsStream(buttonPath+ "3.png"));
+            button4 = ImageIO.read(getClass().getClassLoader().getResourceAsStream(buttonPath+ "2.png"));
         }catch(IOException e){
             e.printStackTrace();
         }

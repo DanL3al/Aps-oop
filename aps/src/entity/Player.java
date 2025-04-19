@@ -25,6 +25,7 @@ public class Player extends Entity{
     private int solidAreaDefaultX,solidAreaDefaultY;
     private boolean collisionOn = false;
     private boolean collidingWithObject = false;
+    private boolean collidingWithNpc = false;
     private boolean pickingObject = false;
     private final long PICKUP_OBJECT_TIMER = 1000000000L;
     private long initialTime;
@@ -96,7 +97,7 @@ public class Player extends Entity{
 
         itensStored = plasticCollected + metalCollected + paperCollected + glassCollected;
 
-        inventoryFull = itensStored >= 2;
+        inventoryFull = itensStored >= 10;
 
         if(itensStored > 0){
             gp.cChecker.checkTrashCanCollision(this,gp.getTrashCans());
@@ -145,7 +146,6 @@ public class Player extends Entity{
                             this.worldX += speed;
                             break;
                     }
-
                 }
 
                 spriteCounter++;
@@ -194,7 +194,7 @@ public class Player extends Entity{
 
             Rectangle objectRect = new Rectangle(screenX, screenY, 48, 48);
 
-            if(getSolidArea().intersects(objectRect)){
+            if(solidAreaTeste().intersects(objectRect)){
                 if(!inventoryFull){
                     switch (object.getType()){
                         case "plastic":
@@ -217,9 +217,18 @@ public class Player extends Entity{
     }
 
 
-    private void setSolidArea(){
-        this.solidArea.x = this.SCREENX + solidAreaDefaultX;
-        this.solidArea.y = this.SCREENY + solidAreaDefaultY;
+    public Rectangle solidAreaTeste(){
+        return new Rectangle(SCREENX + solidAreaDefaultX, SCREENY + solidAreaDefaultY, solidArea.width,solidArea.height);
+        //this.solidArea.x = this.SCREENX + solidAreaDefaultX;
+        //this.solidArea.y = this.SCREENY + solidAreaDefaultY;
+    }
+
+    public void setCollidingWithNpc(boolean collidingWithNpc) {
+        this.collidingWithNpc = collidingWithNpc;
+    }
+
+    public boolean isCollidingWithNpc(){
+        return this.collidingWithNpc;
     }
 
     public boolean isCollidingWithObject() {

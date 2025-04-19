@@ -128,6 +128,10 @@ public class GamePanel extends JPanel implements Runnable{
         return player;
     }
 
+    public boolean getCollidingWithNPC(){
+        return player.isCollidingWithNpc();
+    }
+
     public int getMaxScreenCol() {
         return maxScreenCol;
     }
