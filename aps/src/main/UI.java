@@ -20,6 +20,7 @@ public class UI {
     int seconds;
     int minutes;
     DecimalFormat dFormat = new DecimalFormat("#.00");
+    String currentDialogue = "";
 
     public UI(GamePanel gp){
         this.gp = gp;
@@ -34,8 +35,9 @@ public class UI {
 
         if(gp.getGameState() == gp.getPauseState()){
             drawPauseScreen();
-
-        }else{
+        }else if(gp.getGameState() == gp.getDialogueState()){
+            drawDialogueScreen();
+        } else{
             g2.drawImage(plasticImage, gp.getTileSize() / 2, gp.getTileSize() / 2, gp.getTileSize(), gp.getTileSize(), null);
             g2.drawString(" x " + gp.getPlasticCollected(),74,65);
             milli += (double)1/60;
@@ -59,7 +61,6 @@ public class UI {
         }
     }
 
-
     private void setImage(){
         try{
             plasticImage = ImageIO.read(getClass().getClassLoader().getResourceAsStream("objectAssets/soda-can-2.png"));
@@ -80,5 +81,32 @@ public class UI {
     private int getXForCenteredText(String text){
         int length = (int)g2.getFontMetrics().getStringBounds(text,g2).getWidth();
         return gp.getScreenWidth() / 2 - length/2;
+    }
+
+    private void drawDialogueScreen(){
+        int x = gp.getTileSize()*2;
+        int y = gp.getTileSize()/2;
+        int width = gp.getScreenWidth() - (gp.getTileSize() * 4);
+        int height = gp.getTileSize() * 5;
+        drawSubWindow(x,y,width,height);
+
+        g2.setFont(g2.getFont().deriveFont(Font.PLAIN,20));
+        x += gp.getTileSize();
+        y += gp.getTileSize();
+        g2.drawString(currentDialogue,x,y);
+    }
+
+    private void drawSubWindow(int x, int y, int width, int height){
+        Color c = new Color(0,0,0,220);
+        g2.setColor(c);
+        g2.fillRoundRect(x,y,width,height,35,35);
+        c = new Color(255,255,255);
+        g2.setColor(c);
+        g2.setStroke(new BasicStroke(5));
+        g2.drawRoundRect(x + 5, y + 5, width - 10, height - 10, 25, 25);
+    }
+
+    public void setCurrentDialogue(String dialogue){
+        this.currentDialogue = dialogue;
     }
 }

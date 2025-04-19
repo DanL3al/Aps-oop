@@ -32,6 +32,7 @@ public class Player extends Entity{
     private int plasticCollected,glassCollected,paperCollected,metalCollected;
     private int itensStored;
     private boolean inventoryFull;
+    private NPC entityTalking;
 
     public Player(GamePanel gp){
         super(gp);
@@ -42,6 +43,7 @@ public class Player extends Entity{
         solidAreaDefaultX = 14;
         solidAreaDefaultY = 22;
         solidArea = new Rectangle(solidAreaDefaultX + SCREENX,solidAreaDefaultY + SCREENY,20,26);
+        setDialogues();
     }
 
 
@@ -93,7 +95,7 @@ public class Player extends Entity{
         g2.drawImage(image,SCREENX,SCREENY,width,height,null);
     }
 
-    public void update(boolean up,boolean down, boolean left,boolean right,boolean ePressed, long currentTime){
+    public void update(boolean up,boolean down, boolean left,boolean right,boolean ePressed, boolean tPressed){
 
         itensStored = plasticCollected + metalCollected + paperCollected + glassCollected;
 
@@ -112,6 +114,18 @@ public class Player extends Entity{
                 }
             }else{
                 pickingObject = false;
+            }
+        }
+
+        if(collidingWithNpc){
+            if(tPressed){
+                entityTalking.setTalking(true);
+                talkToNpc(entityTalking);
+                gp.setCurrentDialogue(dialogues[0]);
+                gp.setGameState(gp.getDialogueState());
+            }else{
+                entityTalking.setTalking(false);
+                gp.setGameState(gp.getPlayState());
             }
         }
 
@@ -216,6 +230,17 @@ public class Player extends Entity{
         }
     }
 
+    private void setDialogues(){
+        this.dialogues[0] = "Para de jogar lixo no chão nessa porra, não tá vendo que eu to limpando?";
+    }
+
+    private void talkToNpc(NPC entity){
+        entity.setState("conscious");
+    }
+
+    public void getEntity(NPC entity){
+        this.entityTalking = entity;
+    }
 
     public Rectangle solidAreaTeste(){
         return new Rectangle(SCREENX + solidAreaDefaultX, SCREENY + solidAreaDefaultY, solidArea.width,solidArea.height);

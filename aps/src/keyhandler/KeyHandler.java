@@ -1,30 +1,52 @@
 package keyhandler;
 
+import main.GamePanel;
+
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
 public class KeyHandler implements KeyListener {
 
+    private GamePanel gp;
+    private boolean upPressed,downPressed,leftPressed,rightPressed,ePressed,tPressed;
 
-    private boolean upPressed,downPressed,leftPressed,rightPressed,ePressed,pPressed,tPressed;
+    public KeyHandler(GamePanel gp){
+        this.gp = gp;
+    }
 
     @Override
     public void keyPressed(KeyEvent e) {
         int code = e.getKeyCode();
-        if(code == KeyEvent.VK_W){
-            upPressed = true;
-        }else if(code == KeyEvent.VK_S){
-            downPressed = true;
-        }else if(code == KeyEvent.VK_A){
-            leftPressed = true;
-        }else if(code == KeyEvent.VK_D){
-            rightPressed = true;
-        }else if(code == KeyEvent.VK_E){
-            ePressed = true;
-        }else if(code == KeyEvent.VK_P){
-            pPressed = true;
-        }else if(code == KeyEvent.VK_T){
-            tPressed = true;
+
+        //PLAY STATE
+        if(gp.getGameState() == gp.getPlayState()){
+            if(code == KeyEvent.VK_W){
+                upPressed = true;
+            }else if(code == KeyEvent.VK_S){
+                downPressed = true;
+            }else if(code == KeyEvent.VK_A){
+                leftPressed = true;
+            }else if(code == KeyEvent.VK_D){
+                rightPressed = true;
+            }else if(code == KeyEvent.VK_E){
+                ePressed = true;
+            }else if(code == KeyEvent.VK_T){
+                tPressed = true;
+            }else if(code == KeyEvent.VK_P){
+                gp.setGameState(gp.getPauseState());
+            }
+        }
+        //PAUSE STATE
+        else if(gp.getGameState() == gp.getPauseState()){
+            if(code == KeyEvent.VK_P){
+                gp.setGameState(gp.getPlayState());
+            }
+        }
+        //DIALOGUE STATE
+        else if(gp.getGameState() == gp.getDialogueState()){
+            if(code == KeyEvent.VK_T){
+                gp.setGameState(gp.getPlayState());
+            }
         }
     }
 
@@ -41,10 +63,8 @@ public class KeyHandler implements KeyListener {
             rightPressed = false;
         }else if(code == KeyEvent.VK_E){
             ePressed = false;
-        }else if(code == KeyEvent.VK_P){
-            pPressed = false;
         }else if(code == KeyEvent.VK_T){
-            tPressed = true;
+            tPressed = false;
         }
     }
 
@@ -66,10 +86,6 @@ public class KeyHandler implements KeyListener {
 
     public boolean isePressed() {
         return ePressed;
-    }
-
-    public boolean ispPressed() {
-        return pPressed;
     }
 
     public boolean istPressed() {

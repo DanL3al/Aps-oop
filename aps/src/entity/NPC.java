@@ -123,4 +123,8 @@ public class NPC extends Entity{
         this.worldY = worldY;
     }
 
+    public void setState(String stateChange){
+        this.state = stateChange;
+    }
+
 }

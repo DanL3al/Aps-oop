@@ -88,11 +88,11 @@ public class CollisionChecker {
         }
     }
 
-    public void checkPlayerEntityCollision(Player entity, Entity[] target){
+    public void checkPlayerEntityCollision(Player entity, NPC[] target){
 
         for (int i = 0; i < target.length; i++) {
             if(target[i] != null){
-                Entity npc = target[i];
+                NPC npc = target[i];
 
                 entity.getSolidArea().x = entity.getWorldX() + entity.getSolidArea().x;
                 entity.getSolidArea().y = entity.getWorldY() + entity.getSolidArea().y;
@@ -106,6 +106,7 @@ public class CollisionChecker {
                         if(entity.getSolidArea().intersects(npc.getSolidArea())){
                             entity.setCollisionOn(true);
                             entity.setCollidingWithNpc(true);
+                            entity.getEntity(npc);
                         }else{
                             entity.setCollidingWithNpc(false);
                         }
@@ -115,6 +116,7 @@ public class CollisionChecker {
                         if(entity.getSolidArea().intersects(npc.getSolidArea())){
                             entity.setCollisionOn(true);
                             entity.setCollidingWithNpc(true);
+                            entity.getEntity(npc);
                         }else{
                             entity.setCollidingWithNpc(false);
                         }
@@ -124,6 +126,7 @@ public class CollisionChecker {
                         if(entity.getSolidArea().intersects(npc.getSolidArea())){
                             entity.setCollisionOn(true);
                             entity.setCollidingWithNpc(true);
+                            entity.getEntity(npc);
                         }else{
                             entity.setCollidingWithNpc(false);
                         }
@@ -133,6 +136,7 @@ public class CollisionChecker {
                         if(entity.getSolidArea().intersects(npc.getSolidArea())){
                             entity.setCollisionOn(true);
                             entity.setCollidingWithNpc(true);
+                            entity.getEntity(npc);
                         }else{
                             entity.setCollidingWithNpc(false);
                         }

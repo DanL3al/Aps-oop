@@ -20,7 +20,10 @@ public abstract class Entity {
     Rectangle solidArea;
     int solidAreaDefaultX, solidAreaDefaultY;
     boolean collisionOn = false;
-    public int actionLockCounter = 0;
+    int actionLockCounter = 0;
+    boolean talking = false;
+    String[] dialogues = new String[20];
+
 
     public Entity(GamePanel gp){
         this.gp = gp;
@@ -44,7 +47,7 @@ public abstract class Entity {
         gp.cChecker.checkTile(this);
         gp.cChecker.checkEntityPlayerCollision(this);
 
-        if(!collisionOn){
+        if(!collisionOn && !talking){
             switch (direction){
                 case "up": worldY -= speed;break;
                 case "down": worldY += speed;break;
@@ -163,5 +166,9 @@ public abstract class Entity {
 
     public String getDirection() {
         return direction;
+    }
+
+    public void setTalking(boolean talking_){
+        this.talking = talking_;
     }
 }

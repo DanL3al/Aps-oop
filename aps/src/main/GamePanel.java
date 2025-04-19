@@ -48,11 +48,11 @@ public class GamePanel extends JPanel implements Runnable{
     private int gameState;
     private int playState = 1;
     private int pauseState = 2;
-
+    private int dialogueState = 3;
 
 
     public GamePanel(){
-        keyH = new KeyHandler();
+        keyH = new KeyHandler(this);
         this.setPreferredSize(new Dimension(screenWidth,screenHeight));
         this.setFocusable(true);
         this.setDoubleBuffered(true);
@@ -84,13 +84,8 @@ public class GamePanel extends JPanel implements Runnable{
     }
 
     public void update(long currentTime){
-        if(keyH.ispPressed()){
-            gameState = pauseState;
-        }else{
-            gameState = playState;
-        }
         if(gameState == playState){
-            player.update(keyH.isUpPressed(),keyH.isDownPressed(),keyH.isLeftPressed(),keyH.isRightPressed(),keyH.isePressed(),currentTime);
+            player.update(keyH.isUpPressed(),keyH.isDownPressed(),keyH.isLeftPressed(),keyH.isRightPressed(),keyH.isePressed(),keyH.istPressed());
             npcManager.update();
         }
     }
@@ -116,8 +111,20 @@ public class GamePanel extends JPanel implements Runnable{
         }
     }
 
+    public int getPlayState() {
+        return playState;
+    }
+
+    public void setCurrentDialogue(String dialogue){
+        ui.setCurrentDialogue(dialogue);
+    }
+
     public int getMiddleOfTheScreen(){
         return this.getWORLDDHEIGHT() / 2;
+    }
+
+    public int getDialogueState() {
+        return dialogueState;
     }
 
     public NPC[] getNpcs(){
@@ -130,6 +137,10 @@ public class GamePanel extends JPanel implements Runnable{
 
     public boolean getCollidingWithNPC(){
         return player.isCollidingWithNpc();
+    }
+
+    public void setGameState(int gameState) {
+        this.gameState = gameState;
     }
 
     public int getMaxScreenCol() {
