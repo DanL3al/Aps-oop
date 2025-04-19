@@ -119,13 +119,26 @@ public class Player extends Entity{
 
         if(collidingWithNpc){
             if(tPressed){
+                switch (direction){
+                    case "up":
+                        entityTalking.setDirection("down");
+                        break;
+                    case "down":
+                        entityTalking.setDirection("up");
+                        break;
+                    case "left":
+                        entityTalking.setDirection("right");
+                        break;
+                    case "right":
+                        entityTalking.setDirection("left");
+                        break;
+                }
                 entityTalking.setTalking(true);
                 talkToNpc(entityTalking);
                 gp.setCurrentDialogue(dialogues[0]);
                 gp.setGameState(gp.getDialogueState());
             }else{
                 entityTalking.setTalking(false);
-                gp.setGameState(gp.getPlayState());
             }
         }
 
@@ -231,7 +244,7 @@ public class Player extends Entity{
     }
 
     private void setDialogues(){
-        this.dialogues[0] = "Para de jogar lixo no chão nessa porra, não tá vendo que eu to limpando?";
+        this.dialogues[0] = "Para de jogar lixo no chão nessa porra,\n não tá vendo que eu to limpando?";
     }
 
     private void talkToNpc(NPC entity){

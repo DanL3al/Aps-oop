@@ -93,7 +93,12 @@ public class UI {
         g2.setFont(g2.getFont().deriveFont(Font.PLAIN,20));
         x += gp.getTileSize();
         y += gp.getTileSize();
-        g2.drawString(currentDialogue,x,y);
+        for (String line: currentDialogue.split("\n")){
+            g2.drawString(line,x,y);
+            y += 40;
+            x -= 5;
+        }
+
     }
 
     private void drawSubWindow(int x, int y, int width, int height){

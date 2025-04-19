@@ -76,7 +76,7 @@ public class NPC extends Entity{
                         break;
                 }
                 g2.drawImage(image,screenX,screenY,gp.getTileSize(),gp.getTileSize(),null);
-                if(gp.getCollidingWithNPC()){
+                if(gp.getCollidingWithNPC() && !talking){
                     button.draw(g2,screenX,screenY,gp.getTileSize() * 2 / 3, gp.getTileSize() * 2 / 3);
                 }
         }
@@ -85,36 +85,38 @@ public class NPC extends Entity{
     @Override
     public void setAction(){
 
-        actionLockCounter++;
-        dropTrash ++;
+        if(!talking){
+            actionLockCounter++;
+            dropTrash ++;
 
-        if(actionLockCounter == 120){
-            Random random = new Random();
-            int i = random.nextInt(100)+1;
-            if(i <= 25){
-                this.direction = "up";
-            }else if(i > 25 && i <= 50){
-                this.direction = "down";
-            }else if(i > 50 && i <= 75){
-                this.direction = "left";
-            }else{
-                this.direction = "right";
-            }
-            actionLockCounter = 0;
-        }
-
-        if(dropTrash == 180){
-            if(state.equals("unconscious")){
-                switch (trashDropType){
-                    case "plastic":
-                        Soda soda = new Soda(this.worldX,this.worldY);
-                        gp.addObject(soda);
-                        break;
-                    case "metal":
-                        break;
+            if(actionLockCounter == 120){
+                Random random = new Random();
+                int i = random.nextInt(100)+1;
+                if(i <= 25){
+                    this.direction = "up";
+                }else if(i > 25 && i <= 50){
+                    this.direction = "down";
+                }else if(i > 50 && i <= 75){
+                    this.direction = "left";
+                }else{
+                    this.direction = "right";
                 }
+                actionLockCounter = 0;
             }
-            dropTrash = 0;
+
+            if(dropTrash == 180){
+                if(state.equals("unconscious")){
+                    switch (trashDropType){
+                        case "plastic":
+                            Soda soda = new Soda(this.worldX,this.worldY);
+                            gp.addObject(soda);
+                            break;
+                        case "metal":
+                            break;
+                    }
+                }
+                dropTrash = 0;
+            }
         }
     }
 
