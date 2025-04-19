@@ -16,8 +16,10 @@ public class UI {
     private BufferedImage plasticImage,metalImage,paperImage,glassImage;
     private String message = "Inventory full";
     private int messageCounter;
-    double playTime;
-    DecimalFormat dFormat = new DecimalFormat("#0.00");
+    double milli;
+    int seconds;
+    int minutes;
+    DecimalFormat dFormat = new DecimalFormat("#.00");
 
     public UI(GamePanel gp){
         this.gp = gp;
@@ -36,9 +38,19 @@ public class UI {
         }else{
             g2.drawImage(plasticImage, gp.getTileSize() / 2, gp.getTileSize() / 2, gp.getTileSize(), gp.getTileSize(), null);
             g2.drawString(" x " + gp.getPlasticCollected(),74,65);
-
-            playTime += (double)1/60;
-            g2.drawString("Time: " + dFormat.format(playTime), gp.getTileSize()*11, 65);
+            milli += (double)1/60;
+            if(milli >= 1){
+                seconds++;
+                milli = 0;
+            }if(seconds >= 60){
+                minutes++;
+                seconds = 0;
+            }
+            if(minutes <= 0){
+                g2.drawString(seconds + dFormat.format(milli), gp.getTileSize() * 12, 65);
+            }else{
+                g2.drawString(minutes + "." + seconds + dFormat.format(milli),gp.getTileSize() * 12, 65);
+            }
 
             if(gp.getInventoryFull()){
                 g2.setFont(g2.getFont().deriveFont(30F));
