@@ -46,13 +46,14 @@ public class GamePanel extends JPanel implements Runnable{
     private final int WORLDHEIGHT = tileSize * MAXWORLDROW;
 
     private int gameState;
+    private int menuState = 0;
     private int playState = 1;
     private int pauseState = 2;
     private int dialogueState = 3;
 
 
     public GamePanel(){
-        keyH = new KeyHandler(this);
+        keyH = new KeyHandler(this, ui);
         this.setPreferredSize(new Dimension(screenWidth,screenHeight));
         this.setFocusable(true);
         this.setDoubleBuffered(true);
@@ -63,7 +64,7 @@ public class GamePanel extends JPanel implements Runnable{
         objectManager = new ObjectManager(this);
         trashCanManager = new TrashCanManager(this);
         plasticCan = new PlasticCan(this);
-        gameState = playState;
+        gameState = menuState;
     }
 
     public void startGameThread(){
@@ -74,12 +75,16 @@ public class GamePanel extends JPanel implements Runnable{
     public void paintComponent(Graphics g){
         super.paintComponent(g);
         Graphics2D g2 = (Graphics2D) g;
-        tileM.draw(g2);
-        objectManager.draw(g2);
-        trashCanManager.draw(g2);
-        npcManager.draw(g2);
-        player.draw(g2);
-        ui.draw(g2);
+        if(gameState == menuState){
+            ui.draw(g2);
+        }else{
+            tileM.draw(g2);
+            objectManager.draw(g2);
+            trashCanManager.draw(g2);
+            npcManager.draw(g2);
+            player.draw(g2);
+            ui.draw(g2);
+        }
         g2.dispose();
     }
 
@@ -111,8 +116,13 @@ public class GamePanel extends JPanel implements Runnable{
         }
     }
 
+
     public int getPlayState() {
         return playState;
+    }
+
+    public int getMenuState() {
+        return menuState;
     }
 
     public void setCurrentDialogue(String dialogue){
@@ -131,9 +141,10 @@ public class GamePanel extends JPanel implements Runnable{
         return npcManager.getNpcs();
     }
 
-    public Entity getPlayer() {
+    public Player getPlayer() {
         return player;
     }
+
 
     public boolean getCollidingWithNPC(){
         return player.isCollidingWithNpc();

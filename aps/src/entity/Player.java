@@ -301,6 +301,9 @@ public class Player extends Entity{
         return SCREENY;
     }
 
+    public BufferedImage getDown1(){
+        return this.down1;
+    }
 
     public int getSolidAreaX() {
         return solidArea.x;

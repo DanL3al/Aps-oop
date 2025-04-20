@@ -21,6 +21,7 @@ public class UI {
     int minutes;
     DecimalFormat dFormat = new DecimalFormat("#.00");
     String currentDialogue = "";
+    private int commandNum = 0;
 
     public UI(GamePanel gp){
         this.gp = gp;
@@ -33,11 +34,13 @@ public class UI {
         g2.setFont(arial_28);
         g2.setColor(Color.WHITE);
 
-        if(gp.getGameState() == gp.getPauseState()){
+        if(gp.getGameState() == gp.getMenuState()){
+            drawMenuScreen();
+        }else if(gp.getGameState() == gp.getPauseState()){
             drawPauseScreen();
         }else if(gp.getGameState() == gp.getDialogueState()){
             drawDialogueScreen();
-        } else{
+        }else{
             g2.drawImage(plasticImage, gp.getTileSize() / 2, gp.getTileSize() / 2, gp.getTileSize(), gp.getTileSize(), null);
             g2.drawString(" x " + gp.getPlasticCollected(),74,65);
             milli += (double)1/60;
@@ -69,13 +72,53 @@ public class UI {
         }
     }
 
-    public void drawPauseScreen(){
+    private void drawPauseScreen(){
         g2.setFont(g2.getFont().deriveFont(Font.PLAIN, 80F));
         String text = "PAUSED";
         int x = getXForCenteredText(text);
         int y = gp.getScreenHeight() / 2;
 
         g2.drawString(text,x,y);
+    }
+
+    private void drawMenuScreen(){
+        g2.setColor(new Color(0,0,0));
+        g2.fillRect(0,0,gp.getScreenWidth(),gp.getScreenHeight());
+        g2.setFont(g2.getFont().deriveFont(Font.BOLD,66F));
+        String text = "Escrombos da memória";
+        int x = getXForCenteredText(text);
+        int y = gp.getTileSize() * 3;
+
+        g2.setColor(Color.gray);
+        g2.drawString(text,x+5,y+5);
+
+
+        g2.setColor(Color.white);
+        g2.drawString(text,x,y);
+
+        x = gp.getScreenWidth() / 2 - (gp.getTileSize()*2)/2;
+        y+= gp.getTileSize()*2;
+        g2.drawImage(gp.getPlayer().getDown1(),x,y,gp.getTileSize()*2,gp.getTileSize()*2,null);
+
+
+        g2.setFont(g2.getFont().deriveFont(Font.PLAIN,48F));
+
+        text = "New Game";
+        x = getXForCenteredText(text);
+        y += gp.getTileSize()*3;
+        g2.drawString(text,x,y);
+        if(commandNum == 0){
+            g2.drawString(">",x-gp.getTileSize(),y);
+        }
+
+        text = "Quit";
+        x = getXForCenteredText(text);
+        y += gp.getTileSize();
+        g2.drawString(text,x,y);
+        if(commandNum == 1){
+            g2.drawString(">",x-gp.getTileSize(),y);
+        }
+
     }
 
     private int getXForCenteredText(String text){
@@ -109,6 +152,14 @@ public class UI {
         g2.setColor(c);
         g2.setStroke(new BasicStroke(5));
         g2.drawRoundRect(x + 5, y + 5, width - 10, height - 10, 25, 25);
+    }
+
+    public void setCommandNum(int num){
+        this.commandNum = num;
+    }
+
+    public int getCommandNum() {
+        return commandNum;
     }
 
     public void setCurrentDialogue(String dialogue){

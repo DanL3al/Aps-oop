@@ -1,6 +1,7 @@
 package keyhandler;
 
 import main.GamePanel;
+import main.UI;
 
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
@@ -8,18 +9,44 @@ import java.awt.event.KeyListener;
 public class KeyHandler implements KeyListener {
 
     private GamePanel gp;
+    private UI ui;
     private boolean upPressed,downPressed,leftPressed,rightPressed,ePressed,tPressed;
 
-    public KeyHandler(GamePanel gp){
+    public KeyHandler(GamePanel gp, UI ui){
         this.gp = gp;
+        this.ui = ui;
     }
 
     @Override
     public void keyPressed(KeyEvent e) {
         int code = e.getKeyCode();
 
+
+        //MENU STATE
+        if(gp.getGameState() == gp.getMenuState()){
+            if(code == KeyEvent.VK_W){
+                int num = ui.getCommandNum() - 1;
+                if(num < 0){
+                    num = 1;
+                }
+                ui.setCommandNum(num);
+            }else if(code == KeyEvent.VK_S){
+                int num = ui.getCommandNum() + 1;
+                if(num > 1){
+                    num = 0;
+                }
+                ui.setCommandNum(num);
+            }else if(code == KeyEvent.VK_ENTER){
+                if(ui.getCommandNum() == 0){
+                    gp.setGameState(gp.getPlayState());
+                }else{
+                    System.exit(0);
+                }
+            }
+        }
+
         //PLAY STATE
-        if(gp.getGameState() == gp.getPlayState()){
+        else if(gp.getGameState() == gp.getPlayState()){
             if(code == KeyEvent.VK_W){
                 upPressed = true;
             }else if(code == KeyEvent.VK_S){
