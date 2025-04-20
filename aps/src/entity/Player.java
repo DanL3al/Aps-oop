@@ -154,7 +154,7 @@ public class Player extends Entity{
                 collisionOn = false;
                 gp.cChecker.checkTile(this);
                 gp.cChecker.checkPlayerEntityCollision(this,gp.getNpcs());
-                gp.cChecker.checkTrashCanCollision(this,gp.getTrashCans());
+                gp.cChecker.checkPlayerTrashCanCollision(this,gp.getTrashCans());
                 if(collidingWithTrashCan){
                     //add sound later
                 }

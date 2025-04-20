@@ -46,6 +46,8 @@ public abstract class Entity {
         collisionOn = false;
         gp.cChecker.checkTile(this);
         gp.cChecker.checkEntityPlayerCollision(this);
+        gp.cChecker.checkEntityTrashCanCollision(this,gp.getTrashCans());
+        gp.cChecker.checkEntityEntityCollision(this,gp.getNpcs());
 
         if(!collisionOn && !talking){
             switch (direction){

@@ -3,6 +3,8 @@ package entity;
 import buttons.Button;
 import main.GamePanel;
 import objects.Soda;
+import objects.Wine;
+import trashcan.GlassCan;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -12,13 +14,14 @@ import java.util.Vector;
 public class NPC extends Entity{
 
     String state = "unconscious";
-    String trashDropType = "plastic";
+    String trashDropType;
     int dropTrash = 0;
     Button button = new Button("t");
 
-    public NPC(GamePanel gp, String path) {
+    public NPC(GamePanel gp, String path, String type) {
         super(gp);
         getImage(path);
+        this.trashDropType = type;
     }
 
     private void getImage(String imagePath){
@@ -112,6 +115,10 @@ public class NPC extends Entity{
                             gp.addObject(soda);
                             break;
                         case "metal":
+                            break;
+                        case "glass":
+                            Wine wine = new Wine(this.worldX,this.worldY);
+                            gp.addObject(wine);
                             break;
                     }
                 }

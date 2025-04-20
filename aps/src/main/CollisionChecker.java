@@ -194,7 +194,7 @@ public class CollisionChecker {
             player.getSolidArea().y = player.getSolidAreaDefaultY();
     }
 
-    public void checkTrashCanCollision(Player player, ArrayList<TrashCan> trashCans){
+    public void checkPlayerTrashCanCollision(Player player, ArrayList<TrashCan> trashCans){
 
         if(!trashCans.isEmpty()) {
             for (TrashCan trashCan : trashCans) {
@@ -250,6 +250,98 @@ public class CollisionChecker {
                 player.getSolidArea().y = player.getSolidAreaDefaultY();
                 trashCan.getSolidArea().x = trashCan.getSolidAreaDefaultX();
                 trashCan.getSolidArea().y = trashCan.getSolidAreaDefaultY();
+            }
+        }
+    }
+
+
+    public void checkEntityTrashCanCollision(Entity entity, ArrayList<TrashCan> trashCans){
+
+        if(!trashCans.isEmpty()) {
+            for (TrashCan trashCan : trashCans) {
+                entity.getSolidArea().x = entity.getWorldX() + entity.getSolidArea().x;
+                entity.getSolidArea().y = entity.getWorldY() + entity.getSolidArea().y;
+
+                trashCan.getSolidArea().x = trashCan.getWorldX() + trashCan.getSolidArea().x;
+                trashCan.getSolidArea().y = trashCan.getWorldY() + trashCan.getSolidArea().y;
+
+                switch (entity.getDirection()) {
+                    case "up":
+                        entity.getSolidArea().y -= entity.getSpeed();
+                        if (entity.getSolidArea().intersects(trashCan.getSolidArea())) {
+                            entity.setCollisionOn(true);
+                        }
+                        break;
+                    case "down":
+                        entity.getSolidArea().y += entity.getSpeed();
+                        if (entity.getSolidArea().intersects(trashCan.getSolidArea())) {
+                            entity.setCollisionOn(true);
+                        }
+                        break;
+                    case "left":
+                        entity.getSolidArea().x -= entity.getSpeed();
+                        if (entity.getSolidArea().intersects(trashCan.getSolidArea())) {
+                            entity.setCollisionOn(true);
+                        }
+                        break;
+                    case "right":
+                        entity.getSolidArea().x += entity.getSpeed();
+                        if (entity.getSolidArea().intersects(trashCan.getSolidArea())) {
+                            entity.setCollisionOn(true);
+                        }
+                }
+                entity.getSolidArea().x = entity.getSolidAreaDefaultX();
+                entity.getSolidArea().y = entity.getSolidAreaDefaultY();
+                trashCan.getSolidArea().x = trashCan.getSolidAreaDefaultX();
+                trashCan.getSolidArea().y = trashCan.getSolidAreaDefaultY();
+            }
+        }
+    }
+
+
+    public void checkEntityEntityCollision(Entity entity, NPC[] npcs){
+
+        entity.getSolidArea().x = entity.getWorldX() + entity.getSolidArea().x;
+        entity.getSolidArea().y = entity.getWorldY() + entity.getSolidArea().y;
+
+        for (int i = 0; i < npcs.length; i++) {
+            if(npcs[i] != null && npcs[i] != entity){
+                NPC npc = npcs[i];
+
+                npc.getSolidArea().x = npc.getWorldX() + npc.getSolidArea().x;
+                npc.getSolidArea().y = npc.getWorldY() + npc.getSolidArea().y;
+
+                switch (entity.getDirection()){
+                    case "up":
+                        entity.getSolidArea().y -= entity.getSpeed();
+                        if(entity.getSolidArea().intersects(npc.getSolidArea())){
+                            entity.setCollisionOn(true);
+                        }
+                        break;
+                    case "down":
+                        entity.getSolidArea().y += entity.getSpeed();
+                        if(entity.getSolidArea().intersects(npc.getSolidArea())){
+                            entity.setCollisionOn(true);
+                        }
+                        break;
+                    case "left":
+                        entity.getSolidArea().x -= entity.getSpeed();
+                        if(entity.getSolidArea().intersects(npc.getSolidArea())){
+                            entity.setCollisionOn(true);
+                        }
+                        break;
+                    case "right":
+                        entity.getSolidArea().x += entity.getSpeed();
+                        if(entity.getSolidArea().intersects(npc.getSolidArea())){
+                            entity.setCollisionOn(true);
+                        }
+                        break;
+                }
+
+                entity.getSolidArea().x = entity.getSolidAreaDefaultX();
+                entity.getSolidArea().y = entity.getSolidAreaDefaultY();
+                npc.getSolidArea().x = npc.getSolidAreaDefaultX();
+                npc.getSolidArea().y = npc.getSolidAreaDefaultY();
             }
         }
     }

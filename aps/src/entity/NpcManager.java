@@ -15,8 +15,11 @@ public class NpcManager {
     }
 
     private void setNpcs(){
-        npcs[0] = new NPC(gp,"npcassets/alienigena");
+        npcs[0] = new NPC(gp,"npcassets/alienigena", "plastic");
         npcs[0].setCoordinates(gp.getTileSize() * 21, gp.getTileSize() * 21);
+
+        npcs[1] = new NPC(gp, "npcassets/rosena", "glass");
+        npcs[1].setCoordinates(gp.getTileSize() * 25, gp.getTileSize() * 23);
     }
 
     public void draw(Graphics2D g2){
