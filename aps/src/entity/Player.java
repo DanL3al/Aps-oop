@@ -26,6 +26,7 @@ public class Player extends Entity{
     private boolean collisionOn = false;
     private boolean collidingWithObject = false;
     private boolean collidingWithNpc = false;
+    private boolean collidingWithTrashCan = false;
     private boolean pickingObject = false;
     private final long PICKUP_OBJECT_TIMER = 1000000000L;
     private long initialTime;
@@ -40,9 +41,9 @@ public class Player extends Entity{
         getPlayerImage();
         SCREENX = gp.getScreenWidth() / 2 - gp.getTileSize() / 2;
         SCREENY = gp.getScreenHeight() / 2 - gp.getTileSize() / 2;
-        solidAreaDefaultX = 14;
-        solidAreaDefaultY = 22;
-        solidArea = new Rectangle(solidAreaDefaultX + SCREENX,solidAreaDefaultY + SCREENY,20,26);
+        solidAreaDefaultX = 12;
+        solidAreaDefaultY = 12;
+        solidArea = new Rectangle(solidAreaDefaultX,solidAreaDefaultY,24,24);
         setDialogues();
     }
 
@@ -101,10 +102,6 @@ public class Player extends Entity{
 
         inventoryFull = itensStored >= 10;
 
-        if(itensStored > 0){
-            gp.cChecker.checkTrashCanCollision(this,gp.getTrashCans());
-        }
-
         gp.cChecker.checkPlayerObject(this,gp.getObjects());
         if(collidingWithObject){
             if(ePressed){
@@ -157,6 +154,10 @@ public class Player extends Entity{
                 collisionOn = false;
                 gp.cChecker.checkTile(this);
                 gp.cChecker.checkPlayerEntityCollision(this,gp.getNpcs());
+                gp.cChecker.checkTrashCanCollision(this,gp.getTrashCans());
+                if(collidingWithTrashCan){
+                    //add sound later
+                }
 
                 if(!collisionOn){
                     switch(direction){
@@ -245,6 +246,26 @@ public class Player extends Entity{
 
     private void setDialogues(){
         this.dialogues[0] = "Para de jogar lixo no chão nessa porra,\n não tá vendo que eu to limpando?";
+    }
+
+    public boolean isCollidingWithTrashCan() {
+        return collidingWithTrashCan;
+    }
+
+    public void setCollidingWithTrashCan(boolean collidingWithTrashCan) {
+        this.collidingWithTrashCan = collidingWithTrashCan;
+    }
+
+    public void setGlassCollected(int glassCollected) {
+        this.glassCollected = glassCollected;
+    }
+
+    public void setPaperCollected(int paperCollected) {
+        this.paperCollected = paperCollected;
+    }
+
+    public void setMetalCollected(int metalCollected) {
+        this.metalCollected = metalCollected;
     }
 
     private void talkToNpc(NPC entity){

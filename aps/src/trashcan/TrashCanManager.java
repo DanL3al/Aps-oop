@@ -1,5 +1,6 @@
 package trashcan;
 
+import entity.Player;
 import main.GamePanel;
 
 import java.awt.*;
@@ -12,6 +13,7 @@ public class TrashCanManager {
 
     public TrashCanManager(GamePanel gp){
         this.gp = gp;
+        startTrashCans();
     }
 
     public void draw(Graphics2D g2){
@@ -32,11 +34,35 @@ public class TrashCanManager {
         }
     }
 
+    public void cleanBackpack(Player entity, TrashCan trashCan){
+        switch (trashCan.getType()){
+            case "plastic":
+                entity.setPlasticCollected(0);
+                break;
+            case "metal":
+                entity.setMetalCollected(0);
+                break;
+            case "paper":
+                entity.setPaperCollected(0);
+                break;
+            case "glass":
+                entity.setGlassCollected(0);
+                break;
+        }
+    }
+
+    private void startTrashCans(){
+        GlassCan glassCan = new GlassCan(gp,this,24,21);
+        PaperCan paperCan = new PaperCan(gp,this, 26, 21);
+        MetalCan metalCan = new MetalCan(gp,this, 28, 21);
+        PlasticCan plasticCan = new PlasticCan(gp,this, 30, 21);
+    }
+
     public void add(TrashCan trashCan){
         trashCans.add(trashCan);
     }
 
     public ArrayList<TrashCan> getTrashCans() {
-        return trashCans;
+        return this.trashCans;
     }
 }

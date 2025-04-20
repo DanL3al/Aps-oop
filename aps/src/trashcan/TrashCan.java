@@ -14,18 +14,21 @@ public abstract class TrashCan {
     int worldX,worldY;
     Color color;
     BufferedImage image;
-    Rectangle collision;
+    Rectangle solidArea;
+    int solidAreaDefaultX, solidAreaDefaultY;
     String type;
     int trashCollected;
 
-    public TrashCan(GamePanel gp, TrashCanManager trashCanManager,String type){
+    public TrashCan(GamePanel gp, TrashCanManager trashCanManager,String type,int worldX, int worldY){
         this.trashCanManager = trashCanManager;
         this.gp = gp;
-        worldX = 24 * gp.getTileSize();
-        worldY = 21 * gp.getTileSize();
+        this.worldX = worldX * gp.getTileSize();
+        this.worldY = worldY * gp.getTileSize();
         this.type = type;
         setTrashCanType(type);
-        this.collision = new Rectangle(worldX,worldY,gp.getTileSize(),gp.getTileSize());
+        this.solidAreaDefaultX = 10;
+        this.solidAreaDefaultY = 10;
+        this.solidArea = new Rectangle(solidAreaDefaultX,solidAreaDefaultY,32,32);
         trashCanManager.add(this);
     }
 
@@ -56,6 +59,19 @@ public abstract class TrashCan {
             e.printStackTrace();
         }
         return image;
+    }
+
+    public int getSolidAreaDefaultX() {
+        return solidAreaDefaultX;
+    }
+
+    public int getSolidAreaDefaultY() {
+        return solidAreaDefaultY;
+    }
+
+
+    public Rectangle getSolidArea() {
+        return solidArea;
     }
 
     public int getWorldX() {

@@ -33,11 +33,10 @@ public class GamePanel extends JPanel implements Runnable{
     private Player player;
     private TileManager tileM;
     private ObjectManager objectManager;
-    private TrashCanManager trashCanManager;
+    private TrashCanManager trashCanManager = new TrashCanManager(this);
     public CollisionChecker cChecker = new CollisionChecker(this);
     private NpcManager npcManager = new NpcManager(this);
     private UI ui = new UI(this);
-    private PlasticCan plasticCan;
     private final int FPS = 60;
 
     private final int MAXWORLDCOL = 50;
@@ -62,8 +61,6 @@ public class GamePanel extends JPanel implements Runnable{
         player = new Player(this);
         tileM = new TileManager(this);
         objectManager = new ObjectManager(this);
-        trashCanManager = new TrashCanManager(this);
-        plasticCan = new PlasticCan(this);
         gameState = menuState;
     }
 

@@ -196,27 +196,62 @@ public class CollisionChecker {
 
     public void checkTrashCanCollision(Player player, ArrayList<TrashCan> trashCans){
 
-        if(!trashCans.isEmpty()){
-            for (int i = 0; i < trashCans.size(); i++) {
-                TrashCan trashCan = trashCans.get(i);
-                int screenX = trashCan.getWorldX() - gp.getPlayerWorldX() + gp.getPlayerSCREENX();
-                int screenY = trashCan.getWorldY() - gp.getPlayerWorldY() + gp.getPlayerSCREENY();
+        if(!trashCans.isEmpty()) {
+            for (TrashCan trashCan : trashCans) {
+                player.getSolidArea().x = player.getWorldX() + player.getSolidArea().x;
+                player.getSolidArea().y = player.getWorldY() + player.getSolidArea().y;
 
-                Rectangle objectRect = new Rectangle(screenX, screenY, 48, 48);
+                trashCan.getSolidArea().x = trashCan.getWorldX() + trashCan.getSolidArea().x;
+                trashCan.getSolidArea().y = trashCan.getWorldY() + trashCan.getSolidArea().y;
 
-                if(player.getSolidArea().intersects(objectRect)){
-                    player.setCollisionOn(true);
-                    switch (trashCan.getType()){
-                        case "plastic":
-                            player.setPlasticCollected(0);
-                            break;
-                        case "metal":
-                            break;
-                    }
+                switch (player.getDirection()) {
+                    case "up":
+                        player.getSolidArea().y -= player.getSpeed();
+                        if (player.getSolidArea().intersects(trashCan.getSolidArea())) {
+                            player.setCollisionOn(true);
+                            player.setCollidingWithTrashCan(true);
+                            gp.getTrashCanManager().cleanBackpack(player, trashCan);
+                        } else {
+                            player.setCollidingWithTrashCan(false);
+                        }
+                        break;
+                    case "down":
+                        player.getSolidArea().y += player.getSpeed();
+                        if (player.getSolidArea().intersects(trashCan.getSolidArea())) {
+                            player.setCollisionOn(true);
+                            player.setCollidingWithTrashCan(true);
+                            gp.getTrashCanManager().cleanBackpack(player, trashCan);
+                        } else {
+                            player.setCollidingWithTrashCan(false);
+                        }
+                        break;
+                    case "left":
+                        player.getSolidArea().x -= player.getSpeed();
+                        if (player.getSolidArea().intersects(trashCan.getSolidArea())) {
+                            player.setCollisionOn(true);
+                            player.setCollidingWithTrashCan(true);
+                            gp.getTrashCanManager().cleanBackpack(player, trashCan);
+                        } else {
+                            player.setCollidingWithTrashCan(false);
+                        }
+                        break;
+                    case "right":
+                        player.getSolidArea().x += player.getSpeed();
+                        if (player.getSolidArea().intersects(trashCan.getSolidArea())) {
+                            player.setCollisionOn(true);
+                            player.setCollidingWithTrashCan(true);
+                            gp.getTrashCanManager().cleanBackpack(player, trashCan);
+                        } else {
+                            player.setCollidingWithTrashCan(false);
+                        }
+                        break;
                 }
+                player.getSolidArea().x = player.getSolidAreaDefaultX();
+                player.getSolidArea().y = player.getSolidAreaDefaultY();
+                trashCan.getSolidArea().x = trashCan.getSolidAreaDefaultX();
+                trashCan.getSolidArea().y = trashCan.getSolidAreaDefaultY();
             }
         }
-
     }
 }
 

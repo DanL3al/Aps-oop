@@ -8,8 +8,8 @@ public class PlasticCan extends TrashCan{
 
     String type = "plastic";
 
-    public PlasticCan(GamePanel gp) {
-        super(gp, gp.getTrashCanManager(),"plastic");
+    public PlasticCan(GamePanel gp,TrashCanManager trashCanManager,int worldX, int worldY) {
+        super(gp, trashCanManager,"plastic",worldX,worldY);
     }
 
 }
