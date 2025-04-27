@@ -15,6 +15,7 @@ import trashcan.TrashCanManager;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
 public class GamePanel extends JPanel implements Runnable{
@@ -61,7 +62,7 @@ public class GamePanel extends JPanel implements Runnable{
         player = new Player(this);
         tileM = new TileManager(this);
         objectManager = new ObjectManager(this);
-        gameState = menuState;
+        gameState = playState;
     }
 
     public void startGameThread(){
@@ -113,6 +114,13 @@ public class GamePanel extends JPanel implements Runnable{
         }
     }
 
+    public int getGlassCollected(){
+        return player.getGlassCollected();
+    }
+
+    public BufferedImage getTargetImage(){
+        return npcManager.getTargetImage();
+    }
 
     public int getPlayState() {
         return playState;
@@ -134,8 +142,12 @@ public class GamePanel extends JPanel implements Runnable{
         return dialogueState;
     }
 
-    public NPC[] getNpcs(){
+    public ArrayList<NPC> getNpcs(){
         return npcManager.getNpcs();
+    }
+
+    public void setTarget(){
+        npcManager.setTarget();
     }
 
     public Player getPlayer() {

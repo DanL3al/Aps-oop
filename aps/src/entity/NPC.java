@@ -1,22 +1,25 @@
 package entity;
 
 import buttons.Button;
+import buttons.Event;
 import main.GamePanel;
 import objects.Soda;
 import objects.Wine;
-import trashcan.GlassCan;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.util.Random;
-import java.util.Vector;
 
 public class NPC extends Entity{
 
-    String state = "unconscious";
-    String trashDropType;
-    int dropTrash = 0;
-    Button button = new Button("t");
+    private String state = "unconscious";
+    private String trashDropType;
+    private int dropTrash = 0;
+    private Button talkButton = new Button("t");
+    private Event eventButton = new Event();
+    private boolean target = false;
+
+
 
     public NPC(GamePanel gp, String path, String type) {
         super(gp);
@@ -79,8 +82,12 @@ public class NPC extends Entity{
                         break;
                 }
                 g2.drawImage(image,screenX,screenY,gp.getTileSize(),gp.getTileSize(),null);
-                if(gp.getCollidingWithNPC() && !talking){
-                    button.draw(g2,screenX,screenY,gp.getTileSize() * 2 / 3, gp.getTileSize() * 2 / 3);
+                if(target){
+                    if(collidingWithEntity){
+                        talkButton.draw(g2,screenX,screenY,gp.getTileSize() * 2 / 3, gp.getTileSize() * 2 / 3);
+                    }else{
+                        eventButton.draw(g2,screenX,screenY,gp.getTileSize() * 2 / 3,gp.getTileSize() * 2 / 3);
+                    }
                 }
         }
     }
@@ -127,6 +134,16 @@ public class NPC extends Entity{
         }
     }
 
+
+
+    public boolean isTarget() {
+        return target;
+    }
+
+    public void setTarget(boolean target) {
+        this.target = target;
+    }
+
     public void setCoordinates(int worldX, int worldY){
         this.worldX = worldX;
         this.worldY = worldY;
@@ -136,4 +153,11 @@ public class NPC extends Entity{
         this.state = stateChange;
     }
 
+    public boolean isCollidingWithEntity() {
+        return collidingWithEntity;
+    }
+
+    public void setCollidingWithEntity(boolean collidingWithEntity) {
+        this.collidingWithEntity = collidingWithEntity;
+    }
 }

@@ -17,7 +17,7 @@ public abstract class TrashCan {
     Rectangle solidArea;
     int solidAreaDefaultX, solidAreaDefaultY;
     String type;
-    int trashCollected;
+    boolean collision;
 
     public TrashCan(GamePanel gp, TrashCanManager trashCanManager,String type,int worldX, int worldY){
         this.trashCanManager = trashCanManager;
@@ -25,6 +25,7 @@ public abstract class TrashCan {
         this.worldX = worldX * gp.getTileSize();
         this.worldY = worldY * gp.getTileSize();
         this.type = type;
+        this.collision = false;
         setTrashCanType(type);
         this.solidAreaDefaultX = 10;
         this.solidAreaDefaultY = 10;
@@ -69,6 +70,13 @@ public abstract class TrashCan {
         return solidAreaDefaultY;
     }
 
+    public boolean isCollision() {
+        return collision;
+    }
+
+    public void setCollision(boolean collision) {
+        this.collision = collision;
+    }
 
     public Rectangle getSolidArea() {
         return solidArea;

@@ -24,9 +24,9 @@ public abstract class Object {
         this.worldY = y;
         this.collision = false;
         this.image = setImage(imgPath);
-        solidAreaDefaultX = x;
-        solidAreaDefaultY = y;
-        this.solidArea = new Rectangle(x,y,48,48);
+        solidAreaDefaultX = 8;
+        solidAreaDefaultY = 8;
+        this.solidArea = new Rectangle(32,32,48,48);
         button = new Button("e");
     }
 
@@ -63,6 +63,14 @@ public abstract class Object {
 
     public int getWorldX() {
         return worldX;
+    }
+
+    public int getSolidAreaDefaultX() {
+        return solidAreaDefaultX;
+    }
+
+    public int getSolidAreaDefaultY() {
+        return solidAreaDefaultY;
     }
 
     public Rectangle getSolidArea() {

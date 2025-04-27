@@ -4,11 +4,8 @@ import entity.Entity;
 import entity.NPC;
 import entity.Player;
 import objects.Object;
-import objects.ObjectManager;
 import trashcan.TrashCan;
-import trashcan.TrashCanManager;
 
-import java.awt.*;
 import java.util.ArrayList;
 
 public class CollisionChecker {
@@ -68,7 +65,265 @@ public class CollisionChecker {
         }
     }
 
-    public void checkPlayerObject(Player player, ArrayList<Object> objects){
+
+    public void checkPlayerEntityCollision(Player player, ArrayList<NPC> npcs){
+
+        for (NPC npc : npcs){
+            player.getSolidArea().x = player.getWorldX() + player.getSolidAreaDefaultX();
+            player.getSolidArea().y = player.getWorldY() + player.getSolidAreaDefaultY();
+
+            npc.getSolidArea().x = npc.getWorldX() + npc.getSolidAreaDefaultX();
+            npc.getSolidArea().y = npc.getWorldY() + npc.getSolidAreaDefaultY();
+
+            switch (player.getDirection()) {
+                case "up":
+                    player.getSolidArea().y -= player.getSpeed();
+                    if (player.getSolidArea().intersects(npc.getSolidArea())) {
+                        player.setCollisionOn(true);
+                        if(npc.isTarget()){
+                            player.setCollidingWithEntity(true);
+                            npc.setCollidingWithEntity(true);
+                        }
+                    }else{
+                        player.setCollidingWithEntity(false);
+                        npc.setCollidingWithEntity(false);
+                    }
+                    break;
+                case "down":
+                    player.getSolidArea().y += player.getSpeed();
+                    if (player.getSolidArea().intersects(npc.getSolidArea())) {
+                        player.setCollisionOn(true);
+                        if(npc.isTarget()){
+                            player.setCollidingWithEntity(true);
+                            npc.setCollidingWithEntity(true);
+                        }
+                    }else{
+                        player.setCollidingWithEntity(false);
+                        npc.setCollidingWithEntity(false);
+                    }
+                    break;
+                case "left":
+                    player.getSolidArea().x -= player.getSpeed();
+                    if (player.getSolidArea().intersects(npc.getSolidArea())) {
+                        player.setCollisionOn(true);
+                        if(npc.isTarget()){
+                            player.setCollidingWithEntity(true);
+                            npc.setCollidingWithEntity(true);
+                        }
+                    }else{
+                        player.setCollidingWithEntity(false);
+                        npc.setCollidingWithEntity(false);
+                    }
+                    break;
+                case "right":
+                    player.getSolidArea().x += player.getSpeed();
+                    if (player.getSolidArea().intersects(npc.getSolidArea())) {
+                        player.setCollisionOn(true);
+                        if(npc.isTarget()){
+                            player.setCollidingWithEntity(true);
+                            npc.setCollidingWithEntity(true);
+                        }
+                    }else{
+                        player.setCollidingWithEntity(false);
+                        npc.setCollidingWithEntity(false);
+                    }
+                    break;
+            }
+            player.getSolidArea().x = player.getSolidAreaDefaultX();
+            player.getSolidArea().y = player.getSolidAreaDefaultY();
+
+            npc.getSolidArea().x = npc.getSolidAreaDefaultX();
+            npc.getSolidArea().y = npc.getSolidAreaDefaultY();
+        }
+    }
+
+    public void checkEntityEntityCollision(Entity entity){
+        //CHECK ENTITY (PLAYER) ENTITY (NPC) COLLISION AND ENTITY (NPC) ENTITY (NPC) COLLISION;
+        //CHECK THE WHOLE ARRAY OF NPC
+        for (Entity secondEntity : gp.getNpcs()) {
+
+            //IF THIS INDEX HAS AN NPC WE WILL CHECK IT
+            if (secondEntity != null) {
+                //IF ENTITY == SECOND ENTITY MEANS THE ENTITY IS AN NPC, SO WE DON'T HAVE TO CHECK THE COLLISION
+                //IN THIS INDEX, SINCE THE ENTITY CANNOT COLLIDE WITH ITSELF (IF WE CHECKED IT THE CHARACTER WOULD STAY
+                //STUCK) SO WE USE THIS ONE LOOP ITERATION TO CHECK COLLISION WITH THE PLAYER
+                if(entity == secondEntity){
+
+                    Entity player = gp.getPlayer();
+
+                    entity.getSolidArea().x = entity.getWorldX() + entity.getSolidAreaDefaultX();
+                    entity.getSolidArea().y = entity.getWorldY() + entity.getSolidAreaDefaultY();
+
+                    player.getSolidArea().x = player.getWorldX() + player.getSolidAreaDefaultX();
+                    player.getSolidArea().y = player.getWorldY() + player.getSolidAreaDefaultY();
+
+                    switch (entity.getDirection()) {
+                        case "up":
+                            entity.getSolidArea().y -= entity.getSpeed();
+                            if (entity.getSolidArea().intersects(player.getSolidArea())) {
+                                entity.setCollisionOn(true);
+                            }
+                            break;
+                        case "down":
+                            entity.getSolidArea().y += entity.getSpeed();
+                            if (entity.getSolidArea().intersects(player.getSolidArea())) {
+                                entity.setCollisionOn(true);
+                            }
+                            break;
+                        case "left":
+                            entity.getSolidArea().x -= entity.getSpeed();
+                            if (entity.getSolidArea().intersects(player.getSolidArea())) {
+                                entity.setCollisionOn(true);
+                            }
+                            break;
+                        case "right":
+                            entity.getSolidArea().x += entity.getSpeed();
+                            if (entity.getSolidArea().intersects(player.getSolidArea())) {
+                                entity.setCollisionOn(true);
+                            }
+                            break;
+                    }
+                    entity.getSolidArea().x = entity.getSolidAreaDefaultX();
+                    entity.getSolidArea().y = entity.getSolidAreaDefaultY();
+
+                    player.getSolidArea().x = player.getWorldX() + player.getSolidAreaDefaultX();
+                    player.getSolidArea().y = player.getWorldY() + player.getSolidAreaDefaultY();
+
+                }else{
+                    entity.getSolidArea().x = entity.getWorldX() + entity.getSolidAreaDefaultX();
+                    entity.getSolidArea().y = entity.getWorldY() + entity.getSolidAreaDefaultY();
+
+                    secondEntity.getSolidArea().x = secondEntity.getWorldX() + secondEntity.getSolidAreaDefaultX();
+                    secondEntity.getSolidArea().y = secondEntity.getWorldY() + secondEntity.getSolidAreaDefaultY();
+
+                    switch (entity.getDirection()) {
+                        case "up":
+                            entity.getSolidArea().y -= entity.getSpeed();
+                            if (entity.getSolidArea().intersects(secondEntity.getSolidArea())) {
+                                entity.setCollisionOn(true);
+                            }
+                            break;
+                        case "down":
+                            entity.getSolidArea().y += entity.getSpeed();
+                            if (entity.getSolidArea().intersects(secondEntity.getSolidArea())) {
+                                entity.setCollisionOn(true);
+                            }
+                            break;
+                        case "left":
+                            entity.getSolidArea().x -= entity.getSpeed();
+                            if (entity.getSolidArea().intersects(secondEntity.getSolidArea())) {
+                                entity.setCollisionOn(true);
+                            }
+                            break;
+                        case "right":
+                            entity.getSolidArea().x += entity.getSpeed();
+                            if (entity.getSolidArea().intersects(secondEntity.getSolidArea())) {
+                                entity.setCollisionOn(true);
+                            }
+                            break;
+                    }
+                    entity.getSolidArea().x = entity.getSolidAreaDefaultX();
+                    entity.getSolidArea().y = entity.getSolidAreaDefaultY();
+                    secondEntity.getSolidArea().x = secondEntity.getSolidAreaDefaultX();
+                    secondEntity.getSolidArea().y = secondEntity.getSolidAreaDefaultY();
+                }
+
+            }
+        }
+    }
+
+    public void checkEntityTrashCanCollision(Entity entity, ArrayList<TrashCan> trashCans){
+        for (TrashCan trashCan : trashCans) {
+            entity.getSolidArea().x = entity.getWorldX() + entity.getSolidAreaDefaultX();
+            entity.getSolidArea().y = entity.getWorldY() + entity.getSolidAreaDefaultY();
+
+            trashCan.getSolidArea().x = trashCan.getWorldX() + trashCan.getSolidAreaDefaultX();
+            trashCan.getSolidArea().y = trashCan.getWorldY() + trashCan.getSolidAreaDefaultY();
+
+            switch (entity.getDirection()){
+                case "up":
+                    entity.getSolidArea().y -= entity.getSpeed();
+                    if(entity.getSolidArea().intersects(trashCan.getSolidArea())){
+                        if(entity == gp.getPlayer()){
+                            gp.getPlayer().setCollidingWithTrashCan(true);
+                        }
+                        entity.setCollisionOn(true);
+                        trashCan.setCollision(true);
+                    }else{
+                        trashCan.setCollision(false);
+                    }
+                    break;
+                case "down":
+                    entity.getSolidArea().y += entity.getSpeed();
+                    if(entity.getSolidArea().intersects(trashCan.getSolidArea())){
+                        if(entity == gp.getPlayer()){
+                            gp.getPlayer().setCollidingWithTrashCan(true);
+                        }
+                        entity.setCollisionOn(true);
+                        trashCan.setCollision(true);
+                    }else{
+                        trashCan.setCollision(false);
+                    }
+                    break;
+                case "left":
+                    entity.getSolidArea().x -= entity.getSpeed();
+                    if(entity.getSolidArea().intersects(trashCan.getSolidArea())){
+                        if(entity == gp.getPlayer()){
+                            gp.getPlayer().setCollidingWithTrashCan(true);
+                        }
+                        entity.setCollisionOn(true);
+                        trashCan.setCollision(true);
+                    }else{
+                        trashCan.setCollision(false);
+                    }
+                    break;
+                case "right":
+                    entity.getSolidArea().x += entity.getSpeed();
+                    if(entity.getSolidArea().intersects(trashCan.getSolidArea())){
+                        if(entity == gp.getPlayer()){
+                            gp.getPlayer().setCollidingWithTrashCan(true);
+                        }
+                        entity.setCollisionOn(true);
+                        trashCan.setCollision(true);
+                    }else{
+                        trashCan.setCollision(false);
+                    }
+                    break;
+            }
+        }
+    }
+
+
+    public void checkObjectCollision(Player player, ArrayList<Object> obj) {
+        if(!obj.isEmpty()){
+            for (int i = 0; i < obj.size(); i++) {
+
+                Object object = obj.get(i);
+
+                player.getSolidArea().x = player.getWorldX() + player.getSolidAreaDefaultX();
+                player.getSolidArea().y = player.getWorldY() + player.getSolidAreaDefaultY();
+
+                object.getSolidArea().x = object.getWorldX() + object.getSolidAreaDefaultX();
+                object.getSolidArea().y = object.getWorldY() + object.getSolidAreaDefaultY();
+
+                if (player.getSolidArea().intersects(object.getSolidArea())) {
+                    player.setCollidingWithObject(true);
+                    object.setCollision(true);
+                }else{
+                    object.setCollision(false);
+                }
+
+                player.getSolidArea().x = player.getSolidAreaDefaultX();
+                player.getSolidArea().y = player.getSolidAreaDefaultY();
+                object.getSolidArea().x = object.getSolidAreaDefaultX();
+                object.getSolidArea().y = object.getSolidAreaDefaultY();
+            }
+        }
+    }
+
+
+
+    /*public void checkPlayerObject(Player player, ArrayList<Object> objects){
 
         if(!objects.isEmpty()){
             for (int i = 0; i < objects.size(); i++) {
@@ -344,6 +599,6 @@ public class CollisionChecker {
                 npc.getSolidArea().y = npc.getSolidAreaDefaultY();
             }
         }
-    }
+    }*/
 }
 

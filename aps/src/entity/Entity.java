@@ -20,6 +20,7 @@ public abstract class Entity {
     Rectangle solidArea;
     int solidAreaDefaultX, solidAreaDefaultY;
     boolean collisionOn = false;
+    boolean collidingWithEntity = false;
     int actionLockCounter = 0;
     boolean talking = false;
     String[] dialogues = new String[20];
@@ -31,9 +32,10 @@ public abstract class Entity {
         spriteCounter = 0;
         spriteNum = 1;
         this.speed = 3;
-        solidArea = new Rectangle(0,0,gp.getTileSize(),gp.getTileSize());
-        solidAreaDefaultX = 14;
-        solidAreaDefaultY = 22;
+        solidAreaDefaultX = 12;
+        solidAreaDefaultY = 12;
+        solidArea = new Rectangle(solidAreaDefaultX,solidAreaDefaultY,gp.getTileSize()/2,gp.getTileSize()/2);
+
     }
 
     void setAction(){
@@ -45,9 +47,8 @@ public abstract class Entity {
 
         collisionOn = false;
         gp.cChecker.checkTile(this);
-        gp.cChecker.checkEntityPlayerCollision(this);
+        gp.cChecker.checkEntityEntityCollision(this);
         gp.cChecker.checkEntityTrashCanCollision(this,gp.getTrashCans());
-        gp.cChecker.checkEntityEntityCollision(this,gp.getNpcs());
 
         if(!collisionOn && !talking){
             switch (direction){
@@ -126,9 +127,13 @@ public abstract class Entity {
                     break;
             }
             g2.drawImage(image,screenX,screenY,gp.getTileSize(),gp.getTileSize(),null);
+
         }
     }
 
+    public BufferedImage getDown1() {
+        return down1;
+    }
 
     public void setDirection(String direction) {
         this.direction = direction;
@@ -172,5 +177,13 @@ public abstract class Entity {
 
     public void setTalking(boolean talking_){
         this.talking = talking_;
+    }
+
+    public boolean isCollidingWithEntity() {
+        return collidingWithEntity;
+    }
+
+    public void setCollidingWithEntity(boolean collidingWithEntity) {
+        this.collidingWithEntity = collidingWithEntity;
     }
 }

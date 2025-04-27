@@ -41,8 +41,15 @@ public class UI {
         }else if(gp.getGameState() == gp.getDialogueState()){
             drawDialogueScreen();
         }else{
-            g2.drawImage(plasticImage, gp.getTileSize() / 2, gp.getTileSize() / 2, gp.getTileSize(), gp.getTileSize(), null);
-            g2.drawString(" x " + gp.getPlasticCollected(),74,65);
+
+            g2.setColor(Color.white);
+            g2.fillOval(-2, -2,gp.getTileSize() * 2 + 4, gp.getTileSize() * 2 + 4);
+            g2.setColor(Color.black);
+            g2.fillOval(0,0,gp.getTileSize() * 2, gp.getTileSize() * 2);
+            g2.drawImage(gp.getTargetImage(),gp.getTileSize() / 2,gp.getTileSize() / 2,gp.getTileSize(),gp.getTileSize(),null);
+            g2.setColor(Color.white);
+
+
             milli += (double)1/60;
             if(milli >= 1){
                 seconds++;

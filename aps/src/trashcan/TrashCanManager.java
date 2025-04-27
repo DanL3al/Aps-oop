@@ -34,23 +34,6 @@ public class TrashCanManager {
         }
     }
 
-    public void cleanBackpack(Player entity, TrashCan trashCan){
-        switch (trashCan.getType()){
-            case "plastic":
-                entity.setPlasticCollected(0);
-                break;
-            case "metal":
-                entity.setMetalCollected(0);
-                break;
-            case "paper":
-                entity.setPaperCollected(0);
-                break;
-            case "glass":
-                entity.setGlassCollected(0);
-                break;
-        }
-    }
-
     private void startTrashCans(){
         GlassCan glassCan = new GlassCan(gp,this,24,21);
         PaperCan paperCan = new PaperCan(gp,this, 26, 21);
