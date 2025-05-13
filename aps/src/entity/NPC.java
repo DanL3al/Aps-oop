@@ -127,6 +127,8 @@ public class NPC extends Entity{
                             Wine wine = new Wine(this.worldX,this.worldY);
                             gp.addObject(wine);
                             break;
+                        case "paper":
+                            break;
                     }
                 }
                 dropTrash = 0;

@@ -31,7 +31,7 @@ public abstract class Entity {
         this.direction = "down";
         spriteCounter = 0;
         spriteNum = 1;
-        this.speed = 3;
+        this.speed = 2;
         solidAreaDefaultX = 12;
         solidAreaDefaultY = 12;
         solidArea = new Rectangle(solidAreaDefaultX,solidAreaDefaultY,gp.getTileSize()/2,gp.getTileSize()/2);

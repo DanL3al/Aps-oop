@@ -1,16 +1,11 @@
 package entity;
 
 import main.GamePanel;
-import main.UtilityTool;
 import objects.Object;
 import trashcan.TrashCan;
-
-import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
-import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
 
 public class Player extends Entity{
 
@@ -24,18 +19,17 @@ public class Player extends Entity{
     private final int SCREENX;
     private final int SCREENY;
     private Rectangle solidArea;
-    private int solidAreaDefaultX,solidAreaDefaultY;
+    private final int solidAreaDefaultX;
+    private final int solidAreaDefaultY;
     private boolean collisionOn = false;
     private boolean collidingWithObject = false;
     private boolean collidingWithNpc = false;
     private boolean collidingWithTrashCan = false;
     private boolean pickingObject = false;
-    private final long PICKUP_OBJECT_TIMER = 1000000000L;
-    private long initialTime;
     private int plasticCollected,glassCollected,paperCollected,metalCollected;
     private int itensStored;
     private boolean inventoryFull;
-    private NPC entityTalking;
+    private ArrayList<Integer> dialogueIndexUsed;
 
     public Player(GamePanel gp){
         super(gp);
@@ -99,9 +93,6 @@ public class Player extends Entity{
     }
 
     public void update(boolean up,boolean down, boolean left,boolean right,boolean ePressed, boolean tPressed){
-
-        //System.out.println("Player X: " + worldX + solidAreaDefaultX);
-
         if(!ePressed){
             if(up || down || left || right){
                 if(up){
@@ -168,38 +159,11 @@ public class Player extends Entity{
             }
         }
 
-        if(teste()){
+        if(colliding()){
             if(tPressed){
                 talk();
             }
         }
-
-        /*if(collidingWithNpc){
-            if(tPressed){
-                switch (direction){
-                    case "up":
-                        entityTalking.setDirection("down");
-                        break;
-                    case "down":
-                        entityTalking.setDirection("up");
-                        break;
-                    case "left":
-                        entityTalking.setDirection("right");
-                        break;
-                    case "right":
-                        entityTalking.setDirection("left");
-                        break;
-                }
-                entityTalking.setTalking(true);
-                talkToNpc(entityTalking);
-                gp.setCurrentDialogue(dialogues[0]);
-                gp.setGameState(gp.getDialogueState());
-            }else{
-                entityTalking.setTalking(false);
-            }
-        }*/
-
-
     }
 
     private void setDefaultValues(){
@@ -267,12 +231,13 @@ public class Player extends Entity{
         }
     }
 
-    private boolean teste(){
+    private boolean colliding(){
         for (NPC npc : gp.getNpcs()){
             if(npc.isCollidingWithEntity()){
                 return true;
             }
-        }return false;
+        }
+        return false;
     }
 
     private void talk() {
@@ -288,59 +253,41 @@ public class Player extends Entity{
             }
         }
     }
-                /*switch (direction) {
-                    case "up":
-                        entity.setDirection("down");
-                        break;
-                    case "down":
-                        entity.setDirection("up");
-                        break;
-                    case "left":
-                        entity.setDirection("right");
-                        break;
-                    case "right":
-                        entity.setDirection("left");
-                        break;
-                }*/
 
+    private int getDialogueIndex(){
+        int randomIndex = 0;
+        int numberOfDialogues = getNumberOfDialogues();
+        if(dialogueIndexUsed.size() == numberOfDialogues){
+            dialogueIndexUsed.clear();
+        }
+        while(dialogueIndexUsed.contains(randomIndex)){
+            randomIndex = (int) Math.round(Math.random() * (getNumberOfDialogues() - 1));
+        }
+        dialogueIndexUsed.add(randomIndex);
 
-
-
-            /*if(npc.collidingWithEntity){
-                switch (direction){
-                    case "up":
-                        npc.setDirection("down");
-                        break;
-                    case "down":
-                        npc.setDirection("up");
-                        break;
-                    case "left":
-                        npc.setDirection("right");
-                        break;
-                    case "right":
-                        npc.setDirection("left");
-                        break;
-                }
-                npc.setTalking(true);
-                gp.setCurrentDialogue(dialogues[0]);
-                gp.setGameState(gp.getDialogueState());
-            }else{
-                npc.setTalking(false);
-            }*/
-
-
+        return randomIndex;
+    }
 
     private void setDialogues(){
-        this.dialogues[0] = "Você é ateu? cê ta tirando no bagulho tio";
-        this.dialogues[1] = "Baniram meu boneco? vou trollar a partida";
+        this.dialogues[0] = "Não polua a cidade!";
+        this.dialogues[1] = "Descarte seus resíduos nas lixeiras";
+        this.dialogues[2] = "Uma chuva forte se aproxima, \nO lixo pode entupir os bueiros";
+        this.dialogues[3] = "Cada lixeira tem seu tipo próprio de descarte\nFaça o descarte correto!";
+        this.dialogues[4] = "Você receberá uma multa por poluir a cidade!";
+        dialogueIndexUsed = new ArrayList<>();
     }
 
     private String getDialogue(){
-        return dialogues[1];
+        return dialogues[getDialogueIndex()];
     }
 
-    public boolean isCollidingWithTrashCan() {
-        return collidingWithTrashCan;
+    private int getNumberOfDialogues(){
+        for (int i = 0; i < dialogues.length; i++) {
+            if(dialogues[i] == null){
+                return i;
+            }
+        }
+        return dialogues.length;
     }
 
     public void setCollidingWithTrashCan(boolean collidingWithTrashCan) {
@@ -364,37 +311,8 @@ public class Player extends Entity{
         }
     }
 
-
-    public void setGlassCollected(int glassCollected) {
-        this.glassCollected = glassCollected;
-    }
-
-    public void setPaperCollected(int paperCollected) {
-        this.paperCollected = paperCollected;
-    }
-
-    public void setMetalCollected(int metalCollected) {
-        this.metalCollected = metalCollected;
-    }
-
-    private void talkToNpc(NPC entity){
-        entity.setState("conscious");
-    }
-
-    public void getEntity(NPC entity){
-        this.entityTalking = entity;
-    }
-
-    public void setCollidingWithNpc(boolean collidingWithNpc) {
-        this.collidingWithNpc = collidingWithNpc;
-    }
-
     public boolean isCollidingWithNpc(){
         return this.collidingWithNpc;
-    }
-
-    public boolean isCollidingWithObject() {
-        return collidingWithObject;
     }
 
     public void setCollidingWithObject(boolean collidingWithObject) {
@@ -463,9 +381,5 @@ public class Player extends Entity{
 
     public boolean isInventoryFull() {
         return inventoryFull;
-    }
-
-    public void setPlasticCollected(int plasticCollected) {
-        this.plasticCollected = plasticCollected;
     }
 }

@@ -38,10 +38,25 @@ public class KeyHandler implements KeyListener {
                 ui.setCommandNum(num);
             }else if(code == KeyEvent.VK_ENTER){
                 if(ui.getCommandNum() == 0){
-                    gp.setGameState(gp.getPlayState());
+                    gp.setGameState(gp.getTutorialStateOne());
                 }else{
                     System.exit(0);
                 }
+            }
+        }
+
+        // TUTORIAL STATE ONE
+        else if (gp.getGameState() == gp.getTutorialStateOne()) {
+            if(code == KeyEvent.VK_ENTER){
+                gp.setGameState(gp.getTutorialStateTwo());
+            }
+        }
+
+
+        // TUTORIAL STATE TWO
+        else if(gp.getGameState() == gp.getTutorialStateTwo()){
+           if(code == KeyEvent.VK_ENTER){
+               gp.setGameState(gp.getPlayState());
             }
         }
 

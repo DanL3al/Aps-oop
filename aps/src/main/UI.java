@@ -1,5 +1,6 @@
 package main;
 
+import buttons.Button;
 import objects.ObjectManager;
 
 import javax.imageio.ImageIO;
@@ -22,11 +23,17 @@ public class UI {
     DecimalFormat dFormat = new DecimalFormat("#.00");
     String currentDialogue = "";
     private int commandNum = 0;
+    private Button enterButtonExample;
+    private Button tButtonExample;
+    private Button eButtonExample;
 
     public UI(GamePanel gp){
         this.gp = gp;
         arial_28 = new Font("Arial",Font.PLAIN,28);
         setImage();
+        enterButtonExample = new Button("enter");
+        tButtonExample = new Button("t");
+        eButtonExample = new Button("e");
     }
 
     public void draw(Graphics2D g2){
@@ -36,7 +43,12 @@ public class UI {
 
         if(gp.getGameState() == gp.getMenuState()){
             drawMenuScreen();
-        }else if(gp.getGameState() == gp.getPauseState()){
+        }else if(gp.getGameState() == gp.getTutorialStateOne()){
+            drawTutorialScreen();
+        }else if (gp.getGameState() == gp.getTutorialStateTwo()){
+            drawSecondTutorialScreen();
+        }
+        else if(gp.getGameState() == gp.getPauseState()){
             drawPauseScreen();
         }else if(gp.getGameState() == gp.getDialogueState()){
             drawDialogueScreen();
@@ -128,6 +140,60 @@ public class UI {
 
     }
 
+    private void drawTutorialScreen(){
+        g2.setColor(new Color(0,0,0));
+        g2.fillRect(0,0,gp.getScreenWidth(),gp.getScreenHeight());
+        g2.setFont(g2.getFont().deriveFont(Font.PLAIN,30F));
+
+        String text = "Você é um Guarda Municipal\nE uma forte chuva se aproxima.\n" +
+                "Você receberá denuncias de pessoas que estão \njogando lixo na rua\n" +
+                "Seu trabalho é coletar o lixo e \nConscientizar as pessoas\npara evitar a poluição da cidade\n" +
+                "Evitando assim, o alagamento da cidade!";
+
+        g2.setColor(Color.gray);
+        int x = gp.getTileSize();
+        int y = gp.getTileSize();
+
+        for (String line : text.split("\n")){
+            g2.drawString(line,x,y);
+            y += 40;
+        }
+
+        y = gp.getScreenHeight() - gp.getTileSize();
+        g2.drawString("Aperte Enter", x,y - 10);
+        enterButtonExample.draw(g2,x + 200,y,32,32);
+
+    }
+
+    private void drawSecondTutorialScreen(){
+        g2.setColor(new Color(0,0,0));
+        g2.fillRect(0,0,gp.getScreenWidth(),gp.getScreenHeight());
+        g2.setFont(g2.getFont().deriveFont(Font.PLAIN,24F));
+
+        String text = "Quando interagir com objetos e npcs\nAperte a tecla que aparece nos icones para interagir";
+
+        g2.setColor(Color.gray);
+        int x = gp.getTileSize();
+        int y = gp.getTileSize();
+        for (String line : text.split("\n")){
+            g2.drawString(line, x,y);
+            y += 40;
+        }
+
+
+        y += gp.getTileSize() * 2;
+
+        x += gp.getTileSize() * 3;
+        eButtonExample.draw(g2,x,y,48,48);
+        tButtonExample.draw(g2,x + gp.getTileSize() * 3,y,48,48);
+
+        y = gp.getScreenHeight() - gp.getTileSize();
+        g2.drawString("Aperte Enter", x,y - 10);
+        enterButtonExample.draw(g2,x + 200,y,32,32);
+    }
+
+
+
     private int getXForCenteredText(String text){
         int length = (int)g2.getFontMetrics().getStringBounds(text,g2).getWidth();
         return gp.getScreenWidth() / 2 - length/2;
@@ -146,8 +212,8 @@ public class UI {
         for (String line: currentDialogue.split("\n")){
             g2.drawString(line,x,y);
             y += 40;
-            x -= 5;
         }
+        //g2.drawString(currentDialogue,x,y);
 
     }
 

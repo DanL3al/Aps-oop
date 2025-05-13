@@ -50,6 +50,8 @@ public class GamePanel extends JPanel implements Runnable{
     private int playState = 1;
     private int pauseState = 2;
     private int dialogueState = 3;
+    private int tutorialStateOne = 4;
+    private int tutorialStateTwo = 5;
 
 
     public GamePanel(){
@@ -62,7 +64,7 @@ public class GamePanel extends JPanel implements Runnable{
         player = new Player(this);
         tileM = new TileManager(this);
         objectManager = new ObjectManager(this);
-        gameState = playState;
+        gameState = menuState;
     }
 
     public void startGameThread(){
@@ -86,7 +88,7 @@ public class GamePanel extends JPanel implements Runnable{
         g2.dispose();
     }
 
-    public void update(long currentTime){
+    public void update(){
         if(gameState == playState){
             player.update(keyH.isUpPressed(),keyH.isDownPressed(),keyH.isLeftPressed(),keyH.isRightPressed(),keyH.isePressed(),keyH.istPressed());
             npcManager.update();
@@ -107,7 +109,7 @@ public class GamePanel extends JPanel implements Runnable{
             lastTime = currentTime;
 
             if(delta >= 1){
-                update(currentTime);
+                update();
                 repaint();
                 delta--;
             }
@@ -245,6 +247,11 @@ public class GamePanel extends JPanel implements Runnable{
     }
     public int getPauseState(){
         return this.pauseState;
+    }
+    public int getTutorialStateOne() { return tutorialStateOne; }
+
+    public int getTutorialStateTwo() {
+        return tutorialStateTwo;
     }
 }
 

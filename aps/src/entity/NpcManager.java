@@ -12,7 +12,6 @@ public class NpcManager {
     private ArrayList<NPC> npcs = new ArrayList<>();
     int targetTeste;
     private ArrayList<NPC> target = new ArrayList<>();
-    //private NPC[] npcs = new NPC[10];
 
     public NpcManager(GamePanel gp){
         this.gp = gp;
@@ -30,11 +29,6 @@ public class NpcManager {
 
         npcs.add(npc_1);npcs.add(npc_2);
         target = npcs;
-        /*npcs[0] = new NPC(gp,"npcassets/alienigena", "plastic");
-        npcs[0].setCoordinates(gp.getTileSize() * 21, gp.getTileSize() * 21);
-
-        npcs[1] = new NPC(gp, "npcassets/rosena", "glass");
-        npcs[1].setCoordinates(gp.getTileSize() * 25, gp.getTileSize() * 23);*/
     }
 
     public void draw(Graphics2D g2){
