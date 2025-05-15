@@ -50,20 +50,36 @@ public class TileManager {
     public void draw(Graphics2D g2){
         int worldCol = 0;
         int worldRow = 0;
+        int screenX = 0,screenY = 0;
 
         while(worldCol < gp.getMAXWORLDCOL() && worldRow < gp.getMAXWORLDROW()){
             int tileNum = mapTileNum[worldCol][worldRow];
 
             int worldX = worldCol * gp.getTileSize();
             int worldY = worldRow * gp.getTileSize();
-            int screenX = worldX - gp.getPlayerWorldX() + gp.getPlayerSCREENX();
-            int screenY = worldY - gp.getPlayerWorldY() + gp.getPlayerSCREENY();
 
-            if(worldX + gp.getTileSize()> gp.getPlayerWorldX() - gp.getPlayerSCREENX()&&
-               worldX - gp.getTileSize()< gp.getPlayerWorldX() + gp.getPlayerSCREENX()&&
-               worldY + gp.getTileSize()> gp.getPlayerWorldY() - gp.getPlayerSCREENY()&&
-               worldY - gp.getTileSize()< gp.getPlayerWorldY() + gp.getPlayerSCREENY()){
-                g2.drawImage(tile[tileNum].getImage(),screenX,screenY, null);
+            if(gp.getGameState() != gp.getSpectatingState()){
+                screenX = worldX - gp.getPlayerWorldX() + gp.getPlayerSCREENX();
+                screenY = worldY - gp.getPlayerWorldY() + gp.getPlayerSCREENY();
+            }else{
+                screenX = worldX - gp.getTarget().getWorldX() + gp.getTarget().getSCREENX();
+                screenY = worldY - gp.getTarget().getWorldY() + gp.getTarget().getSCREENY();
+            }
+
+            if(gp.getGameState() != gp.getSpectatingState()){
+                if(worldX + gp.getTileSize()> gp.getPlayerWorldX() - gp.getPlayerSCREENX()&&
+                        worldX - gp.getTileSize()< gp.getPlayerWorldX() + gp.getPlayerSCREENX()&&
+                        worldY + gp.getTileSize()> gp.getPlayerWorldY() - gp.getPlayerSCREENY()&&
+                        worldY - gp.getTileSize()< gp.getPlayerWorldY() + gp.getPlayerSCREENY()){
+                    g2.drawImage(tile[tileNum].getImage(),screenX,screenY, null);
+                }
+            }else{
+                if(worldX + gp.getTileSize()> gp.getTarget().getWorldX() - gp.getTarget().getSCREENX()&&
+                        worldX - gp.getTileSize()< gp.getTarget().getWorldX() + gp.getTarget().getSCREENX()&&
+                        worldY + gp.getTileSize()> gp.getTarget().getWorldY() - gp.getTarget().getSCREENX()&&
+                        worldY - gp.getTileSize()< gp.getTarget().getWorldY() + gp.getTarget().getSCREENY()){
+                    g2.drawImage(tile[tileNum].getImage(),screenX,screenY, null);
+                }
             }
 
 

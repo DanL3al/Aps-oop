@@ -12,12 +12,13 @@ import java.util.Random;
 
 public class NPC extends Entity{
 
-    private String state = "unconscious";
+    private String state = "conscious";
     private String trashDropType;
     private int dropTrash = 0;
     private Button talkButton = new Button("t");
     private Event eventButton = new Event();
     private boolean target = false;
+    private boolean canRender = false;
 
 
 
@@ -40,14 +41,33 @@ public class NPC extends Entity{
 
     @Override
     public void draw(Graphics2D g2){
-        int screenX = worldX - gp.getPlayerWorldX() + gp.getPlayerSCREENX();
-        int screenY = worldY - gp.getPlayerWorldY() + gp.getPlayerSCREENY();
+        int screenX = 0, screenY = 0;
 
-        if(worldX + gp.getTileSize()> gp.getPlayerWorldX() - gp.getPlayerSCREENX()&&
-           worldX - gp.getTileSize()< gp.getPlayerWorldX() + gp.getPlayerSCREENX()&&
-           worldY + gp.getTileSize()> gp.getPlayerWorldY() - gp.getPlayerSCREENY()&&
-           worldY - gp.getTileSize()< gp.getPlayerWorldY() + gp.getPlayerSCREENY()){
+        if(gp.getGameState() != gp.getSpectatingState()){
+            screenX = worldX - gp.getPlayerWorldX() + gp.getPlayerSCREENX();
+            screenY = worldY - gp.getPlayerWorldY() + gp.getPlayerSCREENY();
 
+            if(     worldX + gp.getTileSize()> gp.getPlayerWorldX() - gp.getPlayerSCREENX()&&
+                    worldX - gp.getTileSize()< gp.getPlayerWorldX() + gp.getPlayerSCREENX()&&
+                    worldY + gp.getTileSize()> gp.getPlayerWorldY() - gp.getPlayerSCREENY()&&
+                    worldY - gp.getTileSize()< gp.getPlayerWorldY() + gp.getPlayerSCREENY()){
+
+                    canRender = true;
+            }
+        }else{
+            screenX = worldX - gp.getTarget().getWorldX() + gp.getTarget().getSCREENX();
+            screenY = worldY - gp.getTarget().getWorldY() + gp.getTarget().getSCREENY();
+
+            if(     worldX + gp.getTileSize()> gp.getTarget().getWorldX() - gp.getTarget().getSCREENX()&&
+                    worldX - gp.getTileSize()< gp.getTarget().getWorldX() + gp.getTarget().getSCREENX()&&
+                    worldY + gp.getTileSize()> gp.getTarget().getWorldY() - gp.getTarget().getSCREENX()&&
+                    worldY - gp.getTileSize()< gp.getTarget().getWorldY() + gp.getTarget().getSCREENX()){
+
+                    canRender = true;
+            }
+        }
+
+        if(canRender){
 
                 BufferedImage image = null;
 
@@ -81,8 +101,24 @@ public class NPC extends Entity{
                         }
                         break;
                 }
-                g2.drawImage(image,screenX,screenY,gp.getTileSize(),gp.getTileSize(),null);
-                if(target){
+                if(!target || gp.getGameState() != gp.getSpectatingState() && !target || target && gp.getGameState() != gp.getSpectatingState()){
+                    g2.drawImage(image,screenX,screenY,gp.getTileSize(),gp.getTileSize(),null);
+                    if (target){
+                        if(collidingWithEntity){
+                            talkButton.draw(g2,screenX,screenY,gp.getTileSize() * 2 / 3, gp.getTileSize() * 2 / 3);
+                        }else{
+                            eventButton.draw(g2,screenX,screenY,gp.getTileSize() * 2 / 3,gp.getTileSize() * 2 / 3);
+                        }
+                    }
+                }else{
+                    if(gp.getGameState() == gp.getSpectatingState()){
+                        g2.drawImage(image,SCREENX,SCREENY,gp.getTileSize(),gp.getTileSize(),null);
+                        if(collidingWithEntity){
+                            talkButton.draw(g2,this.SCREENX,this.SCREENY,gp.getTileSize() * 2 / 3, gp.getTileSize() * 2 / 3);
+                        }else{
+                            eventButton.draw(g2,this.SCREENX,this.SCREENY,gp.getTileSize() * 2 / 3,gp.getTileSize() * 2 / 3);
+                        }
+                    }
                     if(collidingWithEntity){
                         talkButton.draw(g2,screenX,screenY,gp.getTileSize() * 2 / 3, gp.getTileSize() * 2 / 3);
                     }else{
@@ -115,7 +151,7 @@ public class NPC extends Entity{
             }
 
             if(dropTrash == 180){
-                if(state.equals("unconscious")){
+                if(target){
                     switch (trashDropType){
                         case "plastic":
                             Soda soda = new Soda(this.worldX,this.worldY);

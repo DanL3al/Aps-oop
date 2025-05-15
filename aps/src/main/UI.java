@@ -14,7 +14,7 @@ public class UI {
     private GamePanel gp;
     private Graphics2D g2;
     private Font arial_28;
-    private BufferedImage plasticImage,metalImage,paperImage,glassImage;
+    private BufferedImage plasticImage,metalImage,paperImage,glassImage, trashCollected;
     private String message = "Inventory full";
     private int messageCounter;
     double milli;
@@ -61,20 +61,23 @@ public class UI {
             g2.drawImage(gp.getTargetImage(),gp.getTileSize() / 2,gp.getTileSize() / 2,gp.getTileSize(),gp.getTileSize(),null);
             g2.setColor(Color.white);
 
+            if(gp.getGameState() != gp.getGameWonState()){
+                milli += (double)1/60;
+                if(milli >= 1){
+                    seconds++;
+                    milli = 0;
+                }if(seconds >= 60){
+                    minutes++;
+                    seconds = 0;
+                }
+                if(minutes <= 0){
+                    g2.drawString(seconds + dFormat.format(milli), gp.getTileSize() * 12, 65);
+                }else{
+                    g2.drawString(minutes + "." + seconds + dFormat.format(milli),gp.getTileSize() * 12, 65);
+                }
+            }
 
-            milli += (double)1/60;
-            if(milli >= 1){
-                seconds++;
-                milli = 0;
-            }if(seconds >= 60){
-                minutes++;
-                seconds = 0;
-            }
-            if(minutes <= 0){
-                g2.drawString(seconds + dFormat.format(milli), gp.getTileSize() * 12, 65);
-            }else{
-                g2.drawString(minutes + "." + seconds + dFormat.format(milli),gp.getTileSize() * 12, 65);
-            }
+
 
             if(gp.getInventoryFull()){
                 g2.setFont(g2.getFont().deriveFont(30F));
@@ -85,6 +88,7 @@ public class UI {
 
     private void setImage(){
         try{
+            trashCollected = ImageIO.read(getClass().getClassLoader().getResourceAsStream("objectAssets/trash-collected.png"));
             plasticImage = ImageIO.read(getClass().getClassLoader().getResourceAsStream("objectAssets/soda-can-2.png"));
         }catch (IOException e){
             e.printStackTrace();

@@ -26,7 +26,8 @@ public class Player extends Entity{
     private boolean collidingWithNpc = false;
     private boolean collidingWithTrashCan = false;
     private boolean pickingObject = false;
-    private int plasticCollected,glassCollected,paperCollected,metalCollected;
+    private int plasticCollected,glassCollected,paperCollected,metalCollected, npcTalked,eventTimer;
+    private boolean gameWon = false;
     private int itensStored;
     private boolean inventoryFull;
     private ArrayList<Integer> dialogueIndexUsed;
@@ -89,7 +90,15 @@ public class Player extends Entity{
                 }
                 break;
         }
-        g2.drawImage(image,SCREENX,SCREENY,width,height,null);
+        if(gp.getGameState() != gp.getSpectatingState()){
+            g2.drawImage(image,SCREENX,SCREENY,width,height,null);
+        }else{
+            int screenX = worldX - gp.getTarget().getWorldX() + gp.getTarget().getSCREENX();
+            int screenY = worldY - gp.getTarget().getWorldY() + gp.getTarget().getSCREENY();
+
+            g2.drawImage(image,screenX,screenY,width,height,null);
+        }
+
     }
 
     public void update(boolean up,boolean down, boolean left,boolean right,boolean ePressed, boolean tPressed){
@@ -144,8 +153,17 @@ public class Player extends Entity{
         }
 
         itensStored = plasticCollected + metalCollected + paperCollected + glassCollected;
+        gameWon = npcTalked == gp.getNpcs().size();
 
-        inventoryFull = itensStored >= 10;
+        /*if(gameWon){
+            eventTimer++;
+            if(eventTimer == 60){
+                gp.setGameState(gp.getGameWonState());
+            }
+        }*/
+
+        inventoryFull = itensStored >= 6;
+
 
         gp.cChecker.checkObjectCollision(this,gp.getObjects());
         if(collidingWithObject){
@@ -162,6 +180,7 @@ public class Player extends Entity{
         if(colliding()){
             if(tPressed){
                 talk();
+                npcTalked++;
             }
         }
     }
@@ -249,7 +268,7 @@ public class Player extends Entity{
                 gp.setGameState(gp.getDialogueState());
                 npc.setTalking(false);
                 npc.setTarget(false);
-                gp.setTarget();
+                gp.setHasTarget(false);
             }
         }
     }
@@ -381,5 +400,13 @@ public class Player extends Entity{
 
     public boolean isInventoryFull() {
         return inventoryFull;
+    }
+
+    public boolean isGameWon() {
+        return gameWon;
+    }
+
+    public void setGameWon(boolean gameWon) {
+        this.gameWon = gameWon;
     }
 }

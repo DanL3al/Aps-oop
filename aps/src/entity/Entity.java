@@ -19,6 +19,7 @@ public abstract class Entity {
     int spriteNum;
     Rectangle solidArea;
     int solidAreaDefaultX, solidAreaDefaultY;
+    int SCREENX, SCREENY;
     boolean collisionOn = false;
     boolean collidingWithEntity = false;
     int actionLockCounter = 0;
@@ -34,6 +35,8 @@ public abstract class Entity {
         this.speed = 2;
         solidAreaDefaultX = 12;
         solidAreaDefaultY = 12;
+        SCREENX = gp.getScreenWidth() / 2 - gp.getTileSize() / 2;
+        SCREENY = gp.getScreenHeight() / 2 - gp.getTileSize() / 2;
         solidArea = new Rectangle(solidAreaDefaultX,solidAreaDefaultY,gp.getTileSize()/2,gp.getTileSize()/2);
 
     }
@@ -185,5 +188,13 @@ public abstract class Entity {
 
     public void setCollidingWithEntity(boolean collidingWithEntity) {
         this.collidingWithEntity = collidingWithEntity;
+    }
+
+    public int getSCREENX() {
+        return SCREENX;
+    }
+
+    public int getSCREENY() {
+        return SCREENY;
     }
 }

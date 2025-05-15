@@ -52,6 +52,10 @@ public class GamePanel extends JPanel implements Runnable{
     private int dialogueState = 3;
     private int tutorialStateOne = 4;
     private int tutorialStateTwo = 5;
+    private int gameWonState = 6;
+    private int spectatingState = 7;
+
+
 
 
     public GamePanel(){
@@ -64,7 +68,7 @@ public class GamePanel extends JPanel implements Runnable{
         player = new Player(this);
         tileM = new TileManager(this);
         objectManager = new ObjectManager(this);
-        gameState = menuState;
+        gameState = playState;
     }
 
     public void startGameThread(){
@@ -89,7 +93,7 @@ public class GamePanel extends JPanel implements Runnable{
     }
 
     public void update(){
-        if(gameState == playState){
+        if(gameState == playState || gameState == spectatingState){
             player.update(keyH.isUpPressed(),keyH.isDownPressed(),keyH.isLeftPressed(),keyH.isRightPressed(),keyH.isePressed(),keyH.istPressed());
             npcManager.update();
         }
@@ -148,9 +152,10 @@ public class GamePanel extends JPanel implements Runnable{
         return npcManager.getNpcs();
     }
 
-    public void setTarget(){
-        npcManager.setTarget();
+    public void setHasTarget(boolean condition){
+        npcManager.setHasTarget(condition);
     }
+
 
     public Player getPlayer() {
         return player;
@@ -252,6 +257,18 @@ public class GamePanel extends JPanel implements Runnable{
 
     public int getTutorialStateTwo() {
         return tutorialStateTwo;
+    }
+
+    public int getGameWonState() {
+        return gameWonState;
+    }
+
+    public int getSpectatingState() {
+        return spectatingState;
+    }
+
+    public NPC getTarget(){
+        return npcManager.getTarget();
     }
 }
 
