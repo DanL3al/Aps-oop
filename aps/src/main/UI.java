@@ -107,8 +107,9 @@ public class UI {
 
 
             if(gp.getInventoryFull()){
-                g2.setFont(g2.getFont().deriveFont(30F));
-                g2.drawString("Inventário Cheio!", gp.getTileSize() / 2, gp.getTileSize() * 8);
+                g2.setFont(g2.getFont().deriveFont(20f));
+                String txt = "Inventário Cheio, faça o descarte!";
+                g2.drawString(txt, getXForCenteredText(txt), gp.getTileSize() * 8);
             }
         }
     }

@@ -297,6 +297,20 @@ public class Player extends Entity{
             if (npc != null) {
                 npc.setTalking(true);
                 npc.setState("conscious");
+                switch(direction){
+                    case "up":
+                        npc.setDirection("down");
+                        break;
+                    case "down":
+                        npc.setDirection("up");
+                        break;
+                    case "left":
+                        npc.setDirection("right");
+                        break;
+                    case "right":
+                        npc.setDirection("left");
+                        break;
+                }
                 gp.setCurrentDialogue(getDialogue());
                 gp.setGameState(gp.getDialogueState());
                 npc.setTalking(false);

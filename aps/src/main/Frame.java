@@ -7,7 +7,7 @@ public class Frame extends JFrame {
     private final GamePanel gp;
 
     public Frame(){
-        this.setTitle("JOGO");
+        this.setTitle("Jhin");
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setResizable(false);
         gp = new GamePanel();
