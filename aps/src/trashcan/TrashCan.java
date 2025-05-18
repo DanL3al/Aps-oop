@@ -1,5 +1,6 @@
 package trashcan;
 
+import buttons.Event;
 import main.GamePanel;
 
 import javax.imageio.ImageIO;
@@ -18,6 +19,7 @@ public abstract class TrashCan {
     int solidAreaDefaultX, solidAreaDefaultY;
     String type;
     boolean collision;
+    Event event;
 
     public TrashCan(GamePanel gp, TrashCanManager trashCanManager,String type,int worldX, int worldY){
         this.trashCanManager = trashCanManager;
@@ -27,6 +29,7 @@ public abstract class TrashCan {
         this.type = type;
         this.collision = false;
         setTrashCanType(type);
+        event = new Event(type);
         this.solidAreaDefaultX = 10;
         this.solidAreaDefaultY = 10;
         this.solidArea = new Rectangle(solidAreaDefaultX,solidAreaDefaultY,32,32);
@@ -35,20 +38,6 @@ public abstract class TrashCan {
 
 
     private void setTrashCanType(String type){
-        switch (type){
-            case "plastic":
-                color = Color.RED;
-                break;
-            case "metal":
-                color = Color.YELLOW;
-                break;
-            case "glass":
-                color = Color.GREEN;
-                break;
-            case "paper":
-                color = Color.BLUE;
-                break;
-        }
         this.image = setImage(type);
     }
 

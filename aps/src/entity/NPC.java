@@ -19,7 +19,7 @@ public class NPC extends Entity{
     private String trashDropType;
     private int dropTrash = 0;
     private Button talkButton = new Button("t");
-    private Event eventButton = new Event();
+    private Event eventButton = new Event("exclamation");
     private boolean target = false;
     private boolean canRender = false;
 

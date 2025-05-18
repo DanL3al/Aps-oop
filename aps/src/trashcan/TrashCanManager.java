@@ -29,6 +29,9 @@ public class TrashCanManager {
                             trashCan.getWorldX() - gp.getTileSize() < gp.getPlayerWorldX() + gp.getPlayerSCREENX() &&
                             trashCan.getWorldY() + gp.getTileSize() > gp.getPlayerWorldY() - gp.getPlayerSCREENY() &&
                             trashCan.getWorldY() - gp.getTileSize() < gp.getPlayerWorldY() + gp.getPlayerSCREENY()) {
+                        if(gp.getTalkingDone()){
+                            trashCan.event.draw(g2,screenX,screenY, 32,32);
+                        }
                         g2.drawImage(trashCan.getImage(), screenX, screenY, gp.getTileSize(), gp.getTileSize(), null);
                     }
                 }else{
@@ -38,6 +41,9 @@ public class TrashCanManager {
                             trashCan.getWorldX() - gp.getTileSize() < gp.getTarget().getWorldX() + gp.getTarget().getSCREENX() &&
                             trashCan.getWorldY() + gp.getTileSize() > gp.getTarget().getWorldY() - gp.getTarget().getSCREENY() &&
                             trashCan.getWorldY() - gp.getTileSize() < gp.getTarget().getWorldY() + gp.getTarget().getSCREENY()) {
+                        if(gp.getTalkingDone()){
+                            trashCan.event.draw(g2,screenX,screenY, 32,32);
+                        }
                         g2.drawImage(trashCan.getImage(), screenX, screenY, gp.getTileSize(), gp.getTileSize(), null);
                     }
                 }

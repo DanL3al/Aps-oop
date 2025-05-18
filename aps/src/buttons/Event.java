@@ -10,9 +10,12 @@ public class Event {
     BufferedImage image1, image2;
     int spriteCounter;
     int spriteNum = 1;
+    String type;
 
-    public Event(){
-        setImage();
+
+    public Event(String type){
+        this.type = type;
+        setImage(type);
     }
 
 
@@ -42,10 +45,14 @@ public class Event {
     }
 
 
-    private void setImage(){
+    private void setImage(String type){
         try {
-            image1 = ImageIO.read(getClass().getClassLoader().getResourceAsStream("buttonassets/exclamation-button-1.png"));
-            image2 = ImageIO.read(getClass().getClassLoader().getResourceAsStream("buttonassets/exclamation-button-2.png"));
+            image1 = ImageIO.read(getClass().getClassLoader().getResourceAsStream("buttonassets/" + type + "-event-1.png"));
+            if (type.equals("exclamation")) {
+                image2 = ImageIO.read(getClass().getClassLoader().getResourceAsStream("buttonassets/" + type + "-event-2.png"));
+            }else{
+                image2 = image1;
+            }
         }catch (IOException e){
             e.printStackTrace();
         }
