@@ -17,6 +17,8 @@ public class UI {
     private BufferedImage plasticImage,metalImage,paperImage,glassImage, trashCollected;
     private String message = "Inventory full";
     private int messageCounter;
+    private int talkingMessageTimer;
+    private int endingTimer;
     double milli;
     int seconds;
     int minutes;
@@ -52,14 +54,16 @@ public class UI {
             drawPauseScreen();
         }else if(gp.getGameState() == gp.getDialogueState()){
             drawDialogueScreen();
-        }else{
+        }else if(gp.getGameState() == gp.getGameWonState()){
+            drawEndingScreen();
+        } else{
 
-            g2.setColor(Color.white);
+            /*g2.setColor(Color.white);
             g2.fillOval(-2, -2,gp.getTileSize() * 2 + 4, gp.getTileSize() * 2 + 4);
             g2.setColor(Color.black);
             g2.fillOval(0,0,gp.getTileSize() * 2, gp.getTileSize() * 2);
             g2.drawImage(gp.getTargetImage(),gp.getTileSize() / 2,gp.getTileSize() / 2,gp.getTileSize(),gp.getTileSize(),null);
-            g2.setColor(Color.white);
+            g2.setColor(Color.white);*/
 
             if(gp.getGameState() != gp.getGameWonState()){
                 milli += (double)1/60;
@@ -77,11 +81,34 @@ public class UI {
                 }
             }
 
+            if(gp.getGameState() == gp.getTalkingDoneState()){
+                drawTalkingDoneScreen();
+                talkingMessageTimer++;
+                if(talkingMessageTimer == 180){
+                    gp.setGameState(gp.getPlayState());
+                }
+            }
+
+            if(gp.getTalkingDone() && talkingMessageTimer == 180){
+                g2.setFont(g2.getFont().deriveFont(24f));
+                g2.drawImage(gp.getGlassImage(),gp.getTileSize() / 2, gp.getTileSize() * 2, 48,48,null);
+                g2.drawString(gp.getGlassCollected() + " / " + gp.getGlassRemaining(),gp.getTileSize() + 18, gp.getTileSize() * 2 + 40);
+
+                g2.drawImage(gp.getPlasticImage(),gp.getTileSize() / 2, gp.getTileSize() * 3, 48,48,null);
+                g2.drawString(gp.getPlasticCollected() +  " / "  + gp.getPlasticRemaining(),gp.getTileSize() + 18, gp.getTileSize() * 3 + 40);
+
+                g2.drawImage(gp.getMetalImage(), gp.getTileSize() / 2, gp.getTileSize() * 4, 48,48,null);
+                g2.drawString(gp.getMetalCollected() + " / " + gp.getMetalRemaining(), gp.getTileSize() + 18, (gp.getTileSize() * 4) + 40);
+
+                g2.drawImage(gp.getPaperImage(), gp.getTileSize() / 2, gp.getTileSize() * 5, 48,48,null);
+                g2.drawString(gp.getPaperCollected() + " / " + gp.getPaperRemaining(), gp.getTileSize() + 18, (gp.getTileSize() * 5) + 40);
+            }
+
 
 
             if(gp.getInventoryFull()){
                 g2.setFont(g2.getFont().deriveFont(30F));
-                g2.drawString(message, gp.getTileSize() / 2, gp.getTileSize() * 5);
+                g2.drawString("Inventário Cheio!", gp.getTileSize() / 2, gp.getTileSize() * 8);
             }
         }
     }
@@ -220,6 +247,41 @@ public class UI {
         //g2.drawString(currentDialogue,x,y);
 
     }
+
+    private void drawTalkingDoneScreen(){
+        int x = gp.getTileSize()*2;
+        int y = gp.getTileSize()*2;
+        int width = gp.getScreenWidth() - (gp.getTileSize() * 4);
+        int height = gp.getScreenHeight() - (gp.getTileSize() * 4);
+        drawSubWindow(x,y,width,height);
+
+        g2.setFont(g2.getFont().deriveFont(Font.PLAIN,20));
+        x += gp.getTileSize();
+        y += gp.getTileSize();
+        String text = "Você terminou de falar com os npcs\nAgora colete os lixos espalhados pela cidade\n" +
+                "e descate-os em uma lixeira adequada";
+        for (String line : text.split("\n")){
+            g2.drawString(line,x,y);
+            y += 40;
+        }
+    }
+
+    private void drawEndingScreen(){
+        g2.setColor(Color.black);
+        g2.fillRect(0,0,gp.getScreenWidth(),gp.getScreenHeight());
+        g2.setFont(g2.getFont().deriveFont(Font.PLAIN,48));
+        g2.setColor(Color.YELLOW);
+        String text = "VITORIA";
+        int x = getXForCenteredText(text);
+        int y = gp.getScreenHeight() / 2;
+        g2.drawString(text, x,y);
+        g2.setColor(Color.gray);
+        text = "Você conseguiu reduzir a poluição na cidade!";
+        g2.setFont(g2.getFont().deriveFont(Font.PLAIN,20));
+        x = getXForCenteredText(text);
+        g2.drawString(text,x,y + gp.getTileSize());
+    }
+
 
     private void drawSubWindow(int x, int y, int width, int height){
         Color c = new Color(0,0,0,220);

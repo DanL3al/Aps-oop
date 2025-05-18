@@ -16,6 +16,7 @@ import trashcan.TrashCanManager;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
+import java.nio.Buffer;
 import java.util.ArrayList;
 
 public class GamePanel extends JPanel implements Runnable{
@@ -54,6 +55,8 @@ public class GamePanel extends JPanel implements Runnable{
     private int tutorialStateTwo = 5;
     private int gameWonState = 6;
     private int spectatingState = 7;
+    private int talkingDoneState = 8;
+    private int endingState = 9;
 
 
 
@@ -68,7 +71,7 @@ public class GamePanel extends JPanel implements Runnable{
         player = new Player(this);
         tileM = new TileManager(this);
         objectManager = new ObjectManager(this);
-        gameState = playState;
+        gameState = menuState;
     }
 
     public void startGameThread(){
@@ -93,7 +96,7 @@ public class GamePanel extends JPanel implements Runnable{
     }
 
     public void update(){
-        if(gameState == playState || gameState == spectatingState){
+        if(gameState == playState || gameState == spectatingState || gameState == talkingDoneState || gameState == endingState){
             player.update(keyH.isUpPressed(),keyH.isDownPressed(),keyH.isLeftPressed(),keyH.isRightPressed(),keyH.isePressed(),keyH.istPressed());
             npcManager.update();
         }
@@ -118,6 +121,45 @@ public class GamePanel extends JPanel implements Runnable{
                 delta--;
             }
         }
+    }
+
+
+    public int getPlasticRemaining(){
+        return objectManager.getPlasticRemaining();
+    }
+
+    public int getGlassRemaining(){
+        return objectManager.getGlassRemaining();
+    }
+
+    public void setPlasticRemaining(){
+        objectManager.setPlasticRemaining();
+    }
+
+    public void setGlassRemaining(){
+        objectManager.setGlassRemaining();
+    }
+
+    public void setPaperRemaining(){
+        objectManager.setPaperRemaining();
+    }
+    public void setMetalRemaining(){
+        objectManager.setMetalRemaining();
+    }
+
+    public int getMetalCollected(){
+        return player.getMetalCollected();
+    }
+
+    public int getMetalRemaining(){
+        return objectManager.getMetalRemaining();
+    }
+
+    public int getPaperCollected(){
+        return player.getPaperCollected();
+    }
+    public int getPaperRemaining(){
+        return objectManager.getPaperRemaining();
     }
 
     public int getGlassCollected(){
@@ -267,8 +309,38 @@ public class GamePanel extends JPanel implements Runnable{
         return spectatingState;
     }
 
+    public int getTalkingDoneState() {
+        return talkingDoneState;
+    }
+
+    public int getEndingState() {
+        return endingState;
+    }
+
     public NPC getTarget(){
         return npcManager.getTarget();
     }
+
+    public boolean getTalkingDone(){
+        return player.isTalkingDone();
+    }
+
+    public BufferedImage getPlasticImage(){
+        return objectManager.getPlasticImage();
+    }
+
+    public BufferedImage getMetalImage(){
+        return objectManager.getMetalImage();
+    }
+
+    public BufferedImage getGlassImage(){
+        return objectManager.getGlassImage();
+    }
+
+    public BufferedImage getPaperImage(){
+        return objectManager.getPaperImage();
+    }
+
+
 }
 

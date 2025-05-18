@@ -3,6 +3,9 @@ package entity;
 import buttons.Button;
 import buttons.Event;
 import main.GamePanel;
+import objects.Metal;
+import objects.Object;
+import objects.Paper;
 import objects.Soda;
 import objects.Wine;
 
@@ -156,14 +159,22 @@ public class NPC extends Entity{
                         case "plastic":
                             Soda soda = new Soda(this.worldX,this.worldY);
                             gp.addObject(soda);
+                            gp.setPlasticRemaining();
                             break;
                         case "metal":
+                            Metal metal = new Metal(this.worldX,this.worldY);
+                            gp.addObject(metal);
+                            gp.setMetalRemaining();
                             break;
                         case "glass":
                             Wine wine = new Wine(this.worldX,this.worldY);
                             gp.addObject(wine);
+                            gp.setGlassRemaining();
                             break;
                         case "paper":
+                            Paper paper = new Paper(this.worldX,this.worldY);
+                            gp.addObject(paper);
+                            gp.setPaperRemaining();
                             break;
                     }
                 }

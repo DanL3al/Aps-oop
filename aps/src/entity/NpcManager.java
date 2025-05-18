@@ -31,10 +31,10 @@ public class NpcManager {
         NPC npc_3 = new NPC(gp, "npcassets/rosena", "metal");
         npc_3.setCoordinates(gp.getTileSize() * 38, gp.getTileSize() * 16);
 
+        NPC npc_4 = new NPC(gp,"assets/character" ,"paper");
+        npc_4.setCoordinates(gp.getTileSize() * 19, gp.getTileSize() * 18);
 
-        //NPC npc_4 = new NPC(gp, ,"paper");
-
-        npcs.add(npc_1);npcs.add(npc_2);npcs.add(npc_3);
+        npcs.add(npc_1);npcs.add(npc_2);npcs.add(npc_3);npcs.add(npc_4);
     }
 
     public void draw(Graphics2D g2){

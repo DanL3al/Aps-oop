@@ -16,6 +16,8 @@ public class Player extends Entity{
     private BufferedImage up1,up2, up_interacting_1,down1,down2,left1,left2,left_interacting_1,right1,right2,right_interacting_1;
     private int spriteCounter;
     private int spriteNum;
+    private int talkingDoneTimer = 0;
+    private int gameWonTimer;
     private final int SCREENX;
     private final int SCREENY;
     private Rectangle solidArea;
@@ -26,8 +28,10 @@ public class Player extends Entity{
     private boolean collidingWithNpc = false;
     private boolean collidingWithTrashCan = false;
     private boolean pickingObject = false;
+    private int plasticDiscarted, paperDiscarted, glassDiscarted, metalDiscarted;
     private int plasticCollected,glassCollected,paperCollected,metalCollected, npcTalked,eventTimer;
     private boolean gameWon = false;
+    private boolean talkingDone = false;
     private int itensStored;
     private boolean inventoryFull;
     private ArrayList<Integer> dialogueIndexUsed;
@@ -153,14 +157,22 @@ public class Player extends Entity{
         }
 
         itensStored = plasticCollected + metalCollected + paperCollected + glassCollected;
-        gameWon = npcTalked == gp.getNpcs().size();
+        talkingDone = npcTalked == gp.getNpcs().size();
+        gameWon = talkingDone && gp.getObjects().isEmpty() && itensStored == 0;
 
-        /*if(gameWon){
-            eventTimer++;
-            if(eventTimer == 60){
+        if(talkingDone && !gp.getObjects().isEmpty()){
+            talkingDoneTimer++;
+            if(talkingDoneTimer == 60){
+                gp.setGameState(gp.getTalkingDoneState());
+            }
+        }
+
+        if(gameWon){
+            gameWonTimer++;
+            if(gameWonTimer >= 120){
                 gp.setGameState(gp.getGameWonState());
             }
-        }*/
+        }
 
         inventoryFull = itensStored >= 6;
 
@@ -242,9 +254,30 @@ public class Player extends Entity{
     }
 
     private void cleanBackpack(){
-        ArrayList<TrashCan> trashCans = gp.getTrashCans();
-        for (TrashCan trashCan : trashCans) {
+        for (TrashCan trashCan : gp.getTrashCans()) {
             if(trashCan.isCollision()){
+                switch (trashCan.getType()){
+                    case "plastic":
+                        if(plasticCollected > 0){
+                            discard("plastic");
+                        }
+                        break;
+                    case "glass":
+                        if(glassCollected > 0){
+                            discard("glass");
+                        }
+                        break;
+                    case "paper":
+                        if(paperCollected > 0){
+                            discard("paper");
+                        }
+                        break;
+                    case "metal":
+                        if(metalCollected > 0){
+                            discard("metal");
+                        }
+                        break;
+                }
                 discard(trashCan.getType());
             }
         }
@@ -316,15 +349,20 @@ public class Player extends Entity{
     private void discard(String type){
         switch (type){
             case "plastic":
+                plasticDiscarted += plasticCollected;
                 plasticCollected = 0;
+
                 break;
             case "metal":
+                metalDiscarted += metalCollected;
                 metalCollected = 0;
                 break;
             case "paper":
+                paperDiscarted += paperCollected;
                 paperCollected = 0;
                 break;
             case "glass":
+                glassDiscarted += glassCollected;
                 glassCollected = 0;
                 break;
         }
@@ -383,19 +421,19 @@ public class Player extends Entity{
     }
 
     public int getMetalCollected() {
-        return metalCollected;
+        return metalDiscarted;
     }
 
     public int getPaperCollected() {
-        return paperCollected;
+        return paperDiscarted;
     }
 
     public int getGlassCollected() {
-        return glassCollected;
+        return glassDiscarted;
     }
 
     public int getPlasticCollected() {
-        return plasticCollected;
+        return plasticDiscarted;
     }
 
     public boolean isInventoryFull() {
@@ -408,5 +446,9 @@ public class Player extends Entity{
 
     public void setGameWon(boolean gameWon) {
         this.gameWon = gameWon;
+    }
+
+    public boolean isTalkingDone() {
+        return talkingDone;
     }
 }
