@@ -53,10 +53,10 @@ public class TrashCanManager {
     }
 
     private void startTrashCans(){
-        GlassCan glassCan = new GlassCan(gp,this,24,21);
-        PaperCan paperCan = new PaperCan(gp,this, 26, 21);
-        MetalCan metalCan = new MetalCan(gp,this, 28, 21);
-        PlasticCan plasticCan = new PlasticCan(gp,this, 30, 21);
+        GlassCan glassCan = new GlassCan(gp,this,19,22);
+        PlasticCan plasticCan = new PlasticCan(gp,this, 21, 22);
+        PaperCan paperCan = new PaperCan(gp,this, 26, 22);
+        MetalCan metalCan = new MetalCan(gp,this, 28, 22);
     }
 
     public void add(TrashCan trashCan){

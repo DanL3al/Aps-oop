@@ -136,7 +136,7 @@ public class UI {
         g2.setColor(new Color(0,0,0));
         g2.fillRect(0,0,gp.getScreenWidth(),gp.getScreenHeight());
         g2.setFont(g2.getFont().deriveFont(Font.BOLD,66F));
-        String text = "Escombros da memória";
+        String text = "Patrulha verde";
         int x = getXForCenteredText(text);
         int y = gp.getTileSize() * 3;
 
@@ -154,7 +154,7 @@ public class UI {
 
         g2.setFont(g2.getFont().deriveFont(Font.PLAIN,48F));
 
-        text = "New Game";
+        text = "Novo Jogo";
         x = getXForCenteredText(text);
         y += gp.getTileSize()*3;
         g2.drawString(text,x,y);
@@ -162,7 +162,7 @@ public class UI {
             g2.drawString(">",x-gp.getTileSize(),y);
         }
 
-        text = "Quit";
+        text = "Sair";
         x = getXForCenteredText(text);
         y += gp.getTileSize();
         g2.drawString(text,x,y);
