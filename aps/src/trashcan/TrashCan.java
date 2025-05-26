@@ -44,6 +44,7 @@ public abstract class TrashCan {
     private BufferedImage setImage(String type){
         BufferedImage image = null;
         try{
+            System.out.println("trashcanassets/"+type+"-can.png");
             image = ImageIO.read(getClass().getClassLoader().getResourceAsStream("trashcanassets/"+type+"-can.png"));
         }catch(IOException e){
             e.printStackTrace();

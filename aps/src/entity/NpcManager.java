@@ -23,7 +23,7 @@ public class NpcManager {
 
     private void setNpcs(){
         NPC npc_1 = new NPC(gp,"npcassets/alienigena", "plastic");
-        npc_1.setCoordinates(gp.getTileSize() * 23, gp.getTileSize() * 7);
+        npc_1.setCoordinates(gp.getTileSize() * 23, gp.getTileSize() * 10);
 
         NPC npc_2 = new NPC(gp, "npcassets/npc", "glass");
         npc_2.setCoordinates(gp.getTileSize() * 25, gp.getTileSize() * 23);
