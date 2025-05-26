@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/Aps-oop.iml" filepath="$PROJECT_DIR$/Aps-oop.iml" />
+      <module fileurl="file://$PROJECT_DIR$/aps.iml" filepath="$PROJECT_DIR$/aps.iml" />
     </modules>
   </component>
 </project>
