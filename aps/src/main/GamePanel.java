@@ -87,6 +87,8 @@ public class GamePanel extends JPanel implements Runnable{
         }else{
             tileM.draw(g2);
             objectManager.draw(g2);
+            player.drawShadow(g2);
+            npcManager.drawShadow(g2);
             trashCanManager.draw(g2);
             npcManager.draw(g2);
             player.draw(g2);

@@ -51,7 +51,6 @@ public class Player extends Entity{
 
     public void draw(Graphics2D g2){
         BufferedImage image = null;
-
         switch (direction){
             case "up":
                 if(pickingObject){
@@ -208,16 +207,16 @@ public class Player extends Entity{
     }
 
     private void getPlayerImage(){
-        up1 = setup("assets/player_up_1");
-        up2 = setup("assets/player_up_2");
+        up1 = setup("assets/teste-up-1");
+        up2 = setup("assets/teste-up-2");
         up_interacting_1 = setup("assets/player_interacting_top_1");
-        down1 = setup("assets/player_down_1");
-        down2 = setup("assets/player_down_2");
-        left1 = setup("assets/player_left_1");
-        left2 = setup("assets/player_left_2");
+        down1 = setup("assets/teste-down-1");
+        down2 = setup("assets/teste-down-2");
+        left1 = setup("assets/teste-left-1");
+        left2 = setup("assets/teste-left-2");
         left_interacting_1 = setup("assets/player_interacting_left_1");
-        right1 = setup("assets/player_right_1");
-        right2 = setup("assets/player_right_2");
+        right1 = setup("assets/teste-right-1");
+        right2 = setup("assets/teste-right-2");
         right_interacting_1 = setup("assets/player_interacting_right_1");
     }
 
@@ -250,6 +249,16 @@ public class Player extends Entity{
                 }
                 objects.remove(i);
             }
+        }
+    }
+
+    public void drawShadow(Graphics2D g2){
+        Color c = new Color(92, 88, 88,218);
+        g2.setColor(c);
+        if(gp.getGameState() == gp.getSpectatingState()){
+            g2.fillOval(worldX + gp.getTileSize() / 2,worldY + 30,22,18);
+        }else{
+            g2.fillOval(SCREENX + gp.getTileSize() / 4,SCREENY + 30,22,18);
         }
     }
 

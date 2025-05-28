@@ -79,7 +79,7 @@ public abstract class Entity {
         BufferedImage image = null;
         try{
             image = ImageIO.read(getClass().getClassLoader().getResourceAsStream(imagePath + ".png"));
-            image = uTool.scaledImage(image,gp.getTileSize(),gp.getTileSize());
+            image = uTool.scaledImage(image,gp.getTileSize() + 24,gp.getTileSize() + 24);
 
         }catch (IOException e){
             e.printStackTrace();
@@ -133,6 +133,8 @@ public abstract class Entity {
 
         }
     }
+
+
 
     public BufferedImage getDown1() {
         return down1;

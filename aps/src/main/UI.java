@@ -136,7 +136,7 @@ public class UI {
         g2.setColor(new Color(0,0,0));
         g2.fillRect(0,0,gp.getScreenWidth(),gp.getScreenHeight());
         g2.setFont(g2.getFont().deriveFont(Font.BOLD,66F));
-        String text = "Escombros da memória";
+        String text = "Patrulha Verde";
         int x = getXForCenteredText(text);
         int y = gp.getTileSize() * 3;
 

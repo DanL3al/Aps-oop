@@ -33,6 +33,8 @@ public class TileManager {
         setup(3,"earth",false);
         setup(4,"tree",true);
         setup(5,"sand",false);
+        /*setup(0,"grama",false);
+        setup(1,"pedra",false);*/
     }
 
     private void setup(int index,String imageName,boolean collision){
@@ -67,7 +69,7 @@ public class TileManager {
             }
 
             if(gp.getGameState() != gp.getSpectatingState()){
-                if(worldX + gp.getTileSize()> gp.getPlayerWorldX() - gp.getPlayerSCREENX()&&
+                if(     worldX + gp.getTileSize() > gp.getPlayerWorldX() - gp.getPlayerSCREENX()&&
                         worldX - gp.getTileSize()< gp.getPlayerWorldX() + gp.getPlayerSCREENX()&&
                         worldY + gp.getTileSize()> gp.getPlayerWorldY() - gp.getPlayerSCREENY()&&
                         worldY - gp.getTileSize()< gp.getPlayerWorldY() + gp.getPlayerSCREENY()){

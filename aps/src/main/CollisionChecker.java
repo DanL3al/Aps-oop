@@ -322,7 +322,6 @@ public class CollisionChecker {
     }
 
 
-
     /*public void checkPlayerObject(Player player, ArrayList<Object> objects){
 
         if(!objects.isEmpty()){

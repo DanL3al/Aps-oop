@@ -38,7 +38,7 @@ public class ObjectManager {
                             object.getWorldX() - gp.getTileSize() < gp.getPlayerWorldX() + gp.getPlayerSCREENX() &&
                             object.getWorldY() + gp.getTileSize() > gp.getPlayerWorldY() - gp.getPlayerSCREENY() &&
                             object.getWorldY() - gp.getTileSize() < gp.getPlayerWorldY() + gp.getPlayerSCREENY()) {
-                        g2.drawImage(object.getImage(), screenX, screenY, gp.getTileSize(), gp.getTileSize(), null);
+                        g2.drawImage(object.getImage(), screenX, screenY, 36, 36, null);
                         if(object.collision){
                             if(gp.getGameState() != gp.getPauseState()){
                                 object.button.draw(g2,screenX,screenY,32,32);
@@ -56,7 +56,7 @@ public class ObjectManager {
                             object.getWorldX() - gp.getTileSize() < gp.getTarget().getWorldX() + gp.getTarget().getSCREENX() &&
                             object.getWorldY() + gp.getTileSize() > gp.getTarget().getWorldY() - gp.getTarget().getSCREENY() &&
                             object.getWorldY() - gp.getTileSize() < gp.getTarget().getWorldY() + gp.getTarget().getSCREENY()) {
-                        g2.drawImage(object.getImage(), screenX, screenY, gp.getTileSize(), gp.getTileSize(), null);
+                        g2.drawImage(object.getImage(), screenX, screenY, 36, 36, null);
                         if(object.collision){
                             if(gp.getGameState() != gp.getPauseState()){
                                 object.button.draw(g2,screenX,screenY,32,32);
