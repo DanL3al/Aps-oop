@@ -184,7 +184,7 @@ public class NPC extends Entity{
     }
 
     public void drawShadow(Graphics2D g2, int screenX, int screenY){
-        Color c = new Color(94, 91, 91,218);
+        Color c = new Color(94, 91, 91, 111);
         g2.setColor(c);
         if(gp.getGameState() == gp.getSpectatingState() && target){
             g2.fillOval(SCREENX + gp.getTileSize() / 4,SCREENY + 30,22,18);

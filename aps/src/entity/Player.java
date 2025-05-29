@@ -253,7 +253,7 @@ public class Player extends Entity{
     }
 
     public void drawShadow(Graphics2D g2){
-        Color c = new Color(92, 88, 88,218);
+        Color c = new Color(92, 88, 88, 139);
         g2.setColor(c);
         if(gp.getGameState() == gp.getSpectatingState()){
             g2.fillOval(worldX + gp.getTileSize() / 2,worldY + 30,22,18);

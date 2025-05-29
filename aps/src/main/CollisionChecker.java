@@ -4,6 +4,7 @@ import entity.Entity;
 import entity.NPC;
 import entity.Player;
 import objects.Object;
+import tile.Build;
 import trashcan.TrashCan;
 
 import java.util.ArrayList;
@@ -320,6 +321,8 @@ public class CollisionChecker {
             }
         }
     }
+
+
 
 
     /*public void checkPlayerObject(Player player, ArrayList<Object> objects){
