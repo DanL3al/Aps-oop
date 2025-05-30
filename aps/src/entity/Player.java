@@ -346,7 +346,7 @@ public class Player extends Entity{
     private void setDialogues(){
         this.dialogues[0] = "Não polua a cidade!";
         this.dialogues[1] = "Descarte seus resíduos nas lixeiras";
-        this.dialogues[2] = "Uma chuva forte se aproxima, \nO lixo pode entupir os bueiros";
+        this.dialogues[2] = "A chuva está aumentando, \nO lixo pode entupir os bueiros";
         this.dialogues[3] = "Cada lixeira tem seu tipo próprio de descarte\nFaça o descarte correto!";
         this.dialogues[4] = "Você receberá uma multa por poluir a cidade!";
         dialogueIndexUsed = new ArrayList<>();

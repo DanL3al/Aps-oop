@@ -1,14 +1,17 @@
 package trashcan;
 
+import entity.Entity;
 import entity.Player;
 import main.GamePanel;
 
 import java.awt.*;
 import java.util.ArrayList;
+import java.util.HashSet;
 
 public class TrashCanManager {
     GamePanel gp;
     ArrayList<TrashCan> trashCans = new ArrayList<>();
+    ArrayList<Integer> trashCanPositions = new ArrayList<>();
 
 
     public TrashCanManager(GamePanel gp){
@@ -57,11 +60,22 @@ public class TrashCanManager {
         PaperCan paperCan = new PaperCan(gp,this, 26, 21);
         MetalCan metalCan = new MetalCan(gp,this, 28, 21);
         PlasticCan plasticCan = new PlasticCan(gp,this, 30, 21);
+        trashCanPositions.add(glassCan.worldX);trashCanPositions.add(glassCan.worldX);trashCanPositions.add(glassCan.worldX);trashCanPositions.add(glassCan.worldX);
     }
 
     public void add(TrashCan trashCan){
         trashCans.add(trashCan);
     }
+
+    public boolean checkPosition(Entity entity){
+        for (int i = 0; i < trashCans.size(); i++) {
+            if(trashCans.get(i).worldY < entity.getWorldY()){
+                return true;
+            }
+        }
+        return false;
+    }
+
 
     public ArrayList<TrashCan> getTrashCans() {
         return this.trashCans;

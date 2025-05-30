@@ -39,7 +39,16 @@ public class GamePanel extends JPanel implements Runnable{
     public CollisionChecker cChecker = new CollisionChecker(this);
     private NpcManager npcManager = new NpcManager(this);
     private UI ui = new UI(this);
+    private Rain rain = new Rain(this);
     private final int FPS = 60;
+
+
+    private boolean raining = false;
+    private int rainingStage = 0;
+    private int climateChange = 1;
+    private int climateTotallyChanged = 2;
+    private int weakRain = 3;
+    private int tempest = 4;
 
     private final int MAXWORLDCOL = 50;
     private final int MAXWORLDROW = 50;
@@ -60,7 +69,6 @@ public class GamePanel extends JPanel implements Runnable{
 
 
 
-
     public GamePanel(){
         keyH = new KeyHandler(this, ui);
         this.setPreferredSize(new Dimension(screenWidth,screenHeight));
@@ -72,6 +80,7 @@ public class GamePanel extends JPanel implements Runnable{
         tileM = new TileManager(this);
         objectManager = new ObjectManager(this);
         gameState = menuState;
+        raining = false;
     }
 
     public void startGameThread(){
@@ -89,9 +98,16 @@ public class GamePanel extends JPanel implements Runnable{
             objectManager.draw(g2);
             player.drawShadow(g2);
             npcManager.drawShadow(g2);
-            trashCanManager.draw(g2);
             npcManager.draw(g2);
-            player.draw(g2);
+            if(trashCanManager.checkPosition(player)){
+                trashCanManager.draw(g2);
+                player.draw(g2);
+            }else{
+                player.draw(g2);
+                trashCanManager.draw(g2);
+            }if(raining){
+                rain.draw(g2);
+            }
             ui.draw(g2);
         }
         g2.dispose();
@@ -100,6 +116,7 @@ public class GamePanel extends JPanel implements Runnable{
     public void update(){
         if(gameState == playState || gameState == spectatingState || gameState == talkingDoneState || gameState == endingState){
             player.update(keyH.isUpPressed(),keyH.isDownPressed(),keyH.isLeftPressed(),keyH.isRightPressed(),keyH.isePressed(),keyH.istPressed());
+            rain.update();
             npcManager.update();
         }
     }
@@ -343,6 +360,36 @@ public class GamePanel extends JPanel implements Runnable{
         return objectManager.getPaperImage();
     }
 
+    public boolean isRaining() {
+        return raining;
+    }
 
+    public void setRaining(boolean raining) {
+        this.raining = raining;
+    }
+
+    public void setRainingStage(int rainingStage) {
+        this.rainingStage = rainingStage;
+    }
+
+    public int getRainingStage() {
+        return rainingStage;
+    }
+
+    public int getClimateChange() {
+        return climateChange;
+    }
+
+    public int getClimateTotallyChanged() {
+        return climateTotallyChanged;
+    }
+
+    public int getWeakRain() {
+        return weakRain;
+    }
+
+    public int getTempest() {
+        return tempest;
+    }
 }
 
