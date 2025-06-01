@@ -56,7 +56,15 @@ public class KeyHandler implements KeyListener {
         // TUTORIAL STATE TWO
         else if(gp.getGameState() == gp.getTutorialStateTwo()){
            if(code == KeyEvent.VK_ENTER){
-               gp.setGameState(gp.getPlayState());
+               gp.setGameState(gp.getTutorialStateThree());
+            }
+        }
+
+
+        //TUTORIAL STATE THREE
+        else if (gp.getGameState() == gp.getTutorialStateThree()) {
+            if(code == KeyEvent.VK_ENTER){
+                gp.setGameState(gp.getPlayState());
             }
         }
 

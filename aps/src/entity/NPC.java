@@ -22,6 +22,8 @@ public class NPC extends Entity{
     private Event eventButton = new Event("exclamation");
     private boolean target = false;
     private boolean canRender = false;
+    private int trashDropped;
+    private int maxTrashDrop = 6;
 
 
 
@@ -154,29 +156,34 @@ public class NPC extends Entity{
             }
 
             if(dropTrash == 180){
-                if(target){
+                if(target && this.trashDropped < maxTrashDrop){
                     switch (trashDropType){
                         case "plastic":
                             Soda soda = new Soda(this.worldX,this.worldY);
                             gp.addObject(soda);
+                            trashDropped++;
                             gp.setPlasticRemaining();
                             break;
                         case "metal":
                             Metal metal = new Metal(this.worldX,this.worldY);
                             gp.addObject(metal);
+                            trashDropped++;
                             gp.setMetalRemaining();
                             break;
                         case "glass":
                             Wine wine = new Wine(this.worldX,this.worldY);
                             gp.addObject(wine);
+                            trashDropped++;
                             gp.setGlassRemaining();
                             break;
                         case "paper":
                             Paper paper = new Paper(this.worldX,this.worldY);
                             gp.addObject(paper);
+                            trashDropped++;
                             gp.setPaperRemaining();
                             break;
                     }
+
                 }
                 dropTrash = 0;
             }

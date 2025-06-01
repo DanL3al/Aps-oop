@@ -62,10 +62,11 @@ public class GamePanel extends JPanel implements Runnable{
     private int dialogueState = 3;
     private int tutorialStateOne = 4;
     private int tutorialStateTwo = 5;
-    private int gameWonState = 6;
-    private int spectatingState = 7;
-    private int talkingDoneState = 8;
-    private int endingState = 9;
+    private int tutorialStateThree = 6;
+    private int gameWonState = 7;
+    private int spectatingState = 8;
+    private int talkingDoneState = 9;
+    private int endingState = 10;
 
 
 
@@ -318,6 +319,10 @@ public class GamePanel extends JPanel implements Runnable{
 
     public int getTutorialStateTwo() {
         return tutorialStateTwo;
+    }
+
+    public int getTutorialStateThree() {
+        return tutorialStateThree;
     }
 
     public int getGameWonState() {

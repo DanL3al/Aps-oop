@@ -28,6 +28,7 @@ public class UI {
     private Button enterButtonExample;
     private Button tButtonExample;
     private Button eButtonExample;
+    private BufferedImage tutorialImage;
 
     public UI(GamePanel gp){
         this.gp = gp;
@@ -36,6 +37,7 @@ public class UI {
         enterButtonExample = new Button("enter");
         tButtonExample = new Button("t");
         eButtonExample = new Button("e");
+        getTutorialImage();
     }
 
     public void draw(Graphics2D g2){
@@ -49,8 +51,9 @@ public class UI {
             drawTutorialScreen();
         }else if (gp.getGameState() == gp.getTutorialStateTwo()){
             drawSecondTutorialScreen();
-        }
-        else if(gp.getGameState() == gp.getPauseState()){
+        } else if (gp.getGameState() == gp.getTutorialStateThree()) {
+            drawThirdTutorialScreen();
+        } else if(gp.getGameState() == gp.getPauseState()){
             drawPauseScreen();
         }else if(gp.getGameState() == gp.getDialogueState()){
             drawDialogueScreen();
@@ -175,14 +178,13 @@ public class UI {
     private void drawTutorialScreen(){
         g2.setColor(new Color(0,0,0));
         g2.fillRect(0,0,gp.getScreenWidth(),gp.getScreenHeight());
-        g2.setFont(g2.getFont().deriveFont(Font.PLAIN,30F));
+        g2.setFont(g2.getFont().deriveFont(Font.PLAIN,28F));
 
-        String text = "Você é um Guarda Municipal\nE uma forte chuva se aproxima.\n" +
-                "Você receberá denuncias de pessoas que estão \njogando lixo na rua\n" +
-                "Seu trabalho é coletar o lixo e \nConscientizar as pessoas\npara evitar a poluição da cidade\n" +
-                "Evitando assim, o alagamento da cidade!";
+        String text = "Você é um Guarda Municipal e uma forte\nchuva está se aproximando.\n" +
+                "Sua missão é atender denúncias de descarte irregular \nde lixo nas ruas\n" +
+                "Recolha os resíduos\nE conscientize a população!\n";
 
-        g2.setColor(Color.gray);
+        g2.setColor(new Color(175, 174, 174));
         int x = gp.getTileSize();
         int y = gp.getTileSize();
 
@@ -224,6 +226,29 @@ public class UI {
         enterButtonExample.draw(g2,x + 200,y,32,32);
     }
 
+    private void drawThirdTutorialScreen(){
+        g2.setColor(new Color(0,0,0));
+        g2.fillRect(0,0,gp.getScreenWidth(),gp.getScreenHeight());
+        g2.setFont(g2.getFont().deriveFont(Font.PLAIN,24F));
+
+        String text = "Pessoas que estão jogando lixo nas ruas\nterão um ícone na cabeça";
+
+        g2.setColor(Color.gray);
+        int x = gp.getTileSize();
+        int y = gp.getTileSize();
+        for (String line : text.split("\n")){
+            g2.drawString(line, x,y);
+            y += 40;
+        }
+
+        x += gp.getTileSize() * 3;
+        y+=40;
+        g2.drawImage(tutorialImage,x,y,229,136,null);
+
+        y = gp.getScreenHeight() - gp.getTileSize();
+        g2.drawString("Aperte Enter", x,y - 10);
+        enterButtonExample.draw(g2,x + 200,y,32,32);
+    }
 
 
     private int getXForCenteredText(String text){
@@ -245,7 +270,10 @@ public class UI {
             g2.drawString(line,x,y);
             y += 40;
         }
-        //g2.drawString(currentDialogue,x,y);
+
+        y = height;
+        x = width - 30;
+        g2.drawString("Aperte T",x,y);
 
     }
 
@@ -304,5 +332,15 @@ public class UI {
 
     public void setCurrentDialogue(String dialogue){
         this.currentDialogue = dialogue;
+    }
+
+    private void getTutorialImage(){
+        BufferedImage image = null;
+        try{
+            image = ImageIO.read(getClass().getClassLoader().getResourceAsStream("assets/print-jogo.png"));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        this.tutorialImage = image;
     }
 }
