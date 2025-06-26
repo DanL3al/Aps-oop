@@ -19,13 +19,13 @@ The player must manage their inventory and interact with NPCs to learn about cor
 ## 📸 Screenshots
 
 ### Inventory management and bin sorting
-![Inventory Full Warning](./assets/screenshot1.png)
+![Inventory Full Warning](https://github.com/DanL3al/Aps-oop/blob/main/aps/src/assets/screenshot-1.png)
 
 ### Educational message displayed
-![Tutorial Message](./assets/screenshot3.png)
+![Tutorial Message](https://github.com/DanL3al/Aps-oop/blob/main/aps/src/assets/screenshot-3.png)
 
 ### Player near waste and bins
-![Gameplay Moment](./assets/screenshot4.png)
+![Gameplay Moment](https://github.com/DanL3al/Aps-oop/blob/main/aps/src/assets/screenshot-4.png)
 
 ---
 
